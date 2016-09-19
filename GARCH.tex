@@ -1,0 +1,72 @@
+\documentclass[slide,10pt]{jsarticle}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{ascmac}
+\usepackage[dvipdfmx]{color}
+\usepackage{pxfonts}
+\def\qed{\hfill $\Box$}
+\def\vector#1{\mbox{\boldmath $#1$}}
+\def\sheet #1{\section*{\centering \large \bfseries #1}}
+
+\begin{document}
+
+\title{\fontsize{45pt}{2cm}\selectfont \\ゼミ発表\\GARCH モデル\\}
+\author{\Huge 学籍番号：201311324 百合川尚学}
+\date{\Huge 2016/09/19}
+\maketitle
+
+\sheet{\Huge GARCH モデルとは何か}
+
+{\huge
+\begin{itemize}
+	\vspace{5mm}
+	\item $Generalized\ Autoregressive\ Conditional\ Heteroskedastic\ $の頭文字をとったもの．
+	\vspace{5mm}
+	\item 直訳すると''一般化された　自己回帰　条件付き　不均一分散''の確率過程．
+	\vspace{5mm}
+	\item $Tim\ Bollerslev$教授によって考案されたモデル．
+\end{itemize}
+}
+
+\sheet{\Huge GARCH モデルの理論(1)}
+
+{\huge
+\begin{description}
+	\item[{\Huge \epsilon_t}\ :\ ] 数式上は実数値離散時間確率過程を表すとする.応用上は金融資産のリターンの履歴を表す．
+	\item[{\Huge \psi_t}\ :\ ] 時点 $t$ までの情報構造．時点 $t$ までの過程の $\sigma$ -集合を表す．\\
+		$\epsilon_t\ は時点\ t\ での確率変数であるから，それぞれの時点で何らかの値を取る．これを\ \epsilon_t(\omega_t)\ と表記すれば，$
+		$時点を\ t_0,\ t_1,\ \cdots,t_n\ として$
+		\[
+			\left\{\vector{\omega}\ |\ \vector{\omega} \equiv (\omega_0,\ \omega_1,\ \cdots,\omega_n) \right\}.
+		\]
+		$この集合を含む最小の \sigma 加法族が即ち\ \psi_t\ である.$
+\end{description}
+$\epsilon_t$ は，時点 $t-1$ までの履歴の情報 $\psi_{t-1}$ が与えられた下で， 正規分布 $N(0, h_t)$ に従うとする．(正規分布でなくてもよい)
+\[
+	\epsilon_t|\psi_{t-1} \sim N(0,\ h_t).
+\]
+$GARCH$ モデルの式は以下の様に表される．
+\[
+	h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}.
+\]
+}
+
+\sheet{\Huge GARCH モデルの理論(2)}
+
+{\huge
+$GARCH$ モデルは金融資産のリターンの履歴 $\epsilon$ とリターンの分散 $h$ を使ったモデルである．
+\[
+	h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}.
+\]
+\begin{eqnarray*}
+	&& p,\ q はどの時点までの履歴をモデルに入れるかを表す,\\
+	&& \alpha_0 \geq 0, \hspace{20pt} \alpha_i > 0, \\
+	&& \beta_i \geq 0.
+\end{eqnarray*}
+係数の非負性は，分散 $h_t$ が負数にならない為にある．
+}
+
+
+\end{document}
