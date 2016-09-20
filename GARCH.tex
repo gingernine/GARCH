@@ -62,10 +62,34 @@ $GARCH$ モデルは金融資産のリターンの履歴 $\epsilon$ とリター
 \]
 \begin{eqnarray*}
 	&& p,\ q はどの時点までの履歴をモデルに入れるかを表す,\\
-	&& \alpha_0 \geq 0, \hspace{20pt} \alpha_i > 0, \\
-	&& \beta_i \geq 0.
+	&& \alpha_0 \geq 0, \hspace{20pt} \alpha_i > 0, \hspace{20pt} \beta_i \geq 0.
 \end{eqnarray*}
-係数の非負性は，分散 $h_t$ が負数にならない為にある．
+係数の非負性は，分散 $h_t$ が負数にならない為にある．\\[1ex]
+$GARCH(p,\ q)$で表されるリターンの確率過程$\{ \epsilon_t \}_t$が広義定常，すなわち，時点に依存しない値が存在して，
+\begin{align*}
+	E[\epsilon_t\ |\ \psi_{t-1}] &= \mu < \infty, \\
+	V[\epsilon_t\ |\ \psi_{t-1}] &= \sigma^2 < \infty, \\
+	Cov[\epsilon_t,\ \epsilon_{t-i}\ |\ \psi_{t-1}] &= \rho_i < \infty.
+\end{align*}
+と表せるための必要十分条件は
+\[
+	\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1
+\]
+が成り立つことであり，
+\[
+	\epsilon_t \equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d.
+\]
+を仮定すれば，
+\[
+	E[\epsilon_t\ |\ \psi_{t-1}] = 0,\ V[\epsilon_t\ |\ \psi_{t-1}] = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1},
+	\ Cov[\epsilon_t,\ \epsilon_s\ |\ \psi_{t-1}] &= 0
+\]
+が成り立つ．特に，$GARCH(1,\ 1)$では
+\[
+	E[\epsilon_t\ |\ \psi_{t-1}] = 0,\ V[\epsilon_t\ |\ \psi_{t-1}] = \alpha_0 \left( 1 - \alpha_1 - \beta_1 \right)^{-1},
+	\ Cov[\epsilon_t,\ \epsilon_s\ |\ \psi_{t-1}] &= 0 \Leftrightarrow \alpha_1 + \beta_1 < 1
+\]
+である．
 }
 
 

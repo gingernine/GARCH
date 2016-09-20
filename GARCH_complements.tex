@@ -16,17 +16,16 @@
 
 $GARCH$モデル:
 \begin{eqnarray*}
-	h_t &=& \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
-	&=& \alpha_0 + A(L) \epsilon_t^2 + B(L) h_t.
+	h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} .
 \end{eqnarray*}
 
 \begin{boxnote}
 	\begin{prop}
-	$GARCH(p,\ q)$ 過程について，広義定常である為の必要十分条件は$A(1)+B(1) < 1$である:
+	$GARCH(p,\ q)$ 過程について，広義定常である為の必要十分条件は$\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$である:
 	\[
-		E[\epsilon_t]=0,\ V[\epsilon_t]=\alpha_0(1-A(1)-B(1))^{-1},\ Cov[\epsilon_t,\ \epsilon_s]=0
+		E[\epsilon_t]=0,\ V[\epsilon_t]=\alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1},\ Cov[\epsilon_t,\ \epsilon_s]=0
 		\hspace{20pt} \Leftrightarrow \hspace{20pt}
-		A(1)+B(1) < 1.
+		\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1.
 	\]
 	\end{prop}
 \end{boxnote}
@@ -111,9 +110,16 @@ $\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$が仮定されていれ�
 \qed
 \end{proof}
 
+本稿の最初に示した$GARCH$モデルの式の同値形を表記する:
+\begin{align*}
+	\epsilon_t \equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d. \mbox{を仮定している下で,}\\
+	h_t &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
+	&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \frac{epsilon_{t-i}^2}{\eta_{t-i}^2}
+\end{align*}
+
 \begin{boxnote}
 	\begin{prop}
-	hoge
+	$GARCH(1,\ 1)について，$
 	\end{prop}
 \end{boxnote}
 \begin{proof}

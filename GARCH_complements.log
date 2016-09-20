@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.7-160201-2.6 (sjis) (TeX Live 2016/W32TeX) (preloaded format=platex 2016.7.14)  20 SEP 2016 09:46
+This is e-pTeX, Version 3.14159265-p3.7-160201-2.6 (sjis) (TeX Live 2016/W32TeX) (preloaded format=platex 2016.7.14)  20 SEP 2016 10:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -194,9 +194,9 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 17.
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 25.
+(Font)              scaled to size 9.60999pt on input line 24.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 25.
+(Font)              scaled to size 9.60999pt on input line 24.
  [1
 
 ] [2] [3]
@@ -212,6 +212,6 @@ Here is how much of TeX's memory you used:
  4978 multiletter control sequences out of 15000+600000
  12679 words of font info for 60 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 27i,10n,26p,373b,243s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 27i,10n,26p,373b,246s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on GARCH_complements.dvi (3 pages, 18984 bytes).
+Output written on GARCH_complements.dvi (3 pages, 20004 bytes).
