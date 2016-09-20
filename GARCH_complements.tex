@@ -1,15 +1,131 @@
-\documentclass{jsarticle}
+\documentclass[8pt]{jsarticle}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{latexsym}
 \usepackage{ascmac}
+\allowdisplaybreaks[1]
 \newcommand{\Section}[2]{\section*{\S #1 .\hspace{5pt} #2}}
-\newtheorem{question}{question}
-\newtheorem{answer}{answer}
+\newtheorem{prop}{定理}
+\newtheorem{proof}{証明}
 \def\qed{\hfill $\Box$}
 \def\vector#1{\mbox{\boldmath $#1$}}
 \begin{document}
+
 \Section{1}{GENERAKIZED\ AUTOREGRESSIVE\ CONDITIONAL\ HETEROSLEDASTICITY}
+
+$GARCH$モデル:
+\begin{eqnarray*}
+	h_t &=& \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
+	&=& \alpha_0 + A(L) \epsilon_t^2 + B(L) h_t.
+\end{eqnarray*}
+
+\begin{boxnote}
+	\begin{prop}
+	$GARCH(p,\ q)$ 過程について，広義定常である為の必要十分条件は$A(1)+B(1) < 1$である:
+	\[
+		E[\epsilon_t]=0,\ V[\epsilon_t]=\alpha_0(1-A(1)-B(1))^{-1},\ Cov[\epsilon_t,\ \epsilon_s]=0
+		\hspace{20pt} \Leftrightarrow \hspace{20pt}
+		A(1)+B(1) < 1.
+	\]
+	\end{prop}
+\end{boxnote}
+\begin{proof}
+$\epsilon_t$は次の様に表されると仮定する:
+\[
+	\epsilon_t \equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d.
+\]
+各時点の$\epsilon_*$を繰り返し$h_t$に代入する:
+\begin{align*}
+	h_t &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
+	&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 h_{t-i} + \sum_{i=1}^{p} \beta_i h_{t-i} \\
+	&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 \left( \alpha_0 + \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 h_{t-i-j} + \sum_{j=1}^{p} \beta_j h_{t-i-j} \right)\\
+		&\quad+ \sum_{i=1}^{p} \beta_i \left( \alpha_0 + \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 h_{t-i-j} + \sum_{j=1}^{p} \beta_j h_{t-i-j} \right) \\
+	&= \alpha_0 + \alpha_0 \left( \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \sum_{i=1}^{p} \beta_i \right) \\
+		&\quad+ \left( \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \sum_{i=1}^{p} \beta_i \right) \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 h_{t-i-j} \\
+		&\quad+ \left( \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \sum_{i=1}^{p} \beta_i \right) \sum_{j=1}^{p} \beta_j h_{t-i-j} \\
+	&= \alpha_0 + \alpha_0 \left( \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \sum_{i=1}^{p} \beta_i \right) \\
+		&\quad+ \left( \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \sum_{i=1}^{p} \beta_i \right) \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 \left( \alpha_0 + \sum_{l=1}^{q} \alpha_l \eta_{t-i-j-l}^2 h_{t-i-j-l} + \sum_{l=1}^{p} \beta_l h_{t-i-j-l} \right) \\
+		&\quad+ \left( \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \sum_{i=1}^{p} \beta_i \right) \sum_{j=1}^{p} \beta_j \left( \alpha_0 + \sum_{l=1}^{q} \alpha_l \eta_{t-i-j-l}^2 h_{t-i-j-l} + \sum_{l=1}^{p} \beta_l h_{t-i-j-l} \right) \\
+	&= \alpha_0 + \alpha_0 \left( \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \sum_{i=1}^{p} \beta_i \right) + \alpha_0 \left( \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{p} \beta_i \right) \\
+		&\quad+ \left( \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 
+		+ \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{p} \beta_i \right)
+		\sum_{l=1}^{q} \alpha_l \eta_{t-i-j-l}^2 h_{t-i-j-l} \\
+		&\quad+ \left( \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 
+		+ \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{p} \beta_i \right)
+		\sum_{l=1}^{p} \beta_l h_{t-i-j-l} \\
+	&= \alpha_0  M(t,\ 0) + \alpha_0  M(t,\ 1) + \alpha_0  M(t,\ 2) \\
+		&\quad+ M(t,\ 2) \sum_{l=1}^{q} \alpha_l \eta_{t-i-j-l}^2 \left( \alpha_0 + \sum_{r=1}^{q} \alpha_r \eta_{t-i-j-l-r}^2 h_{t-i-j-l-r} + \sum_{r=1}^{p} \beta_r h_{t-i-j-l-r} \right) \\
+		&\quad+ M(t,\ 2) \sum_{l=1}^{p} \beta_l \left( \alpha_0 + \sum_{r=1}^{q} \alpha_r \eta_{t-i-j-l-r}^2 h_{t-i-j-l-r} + \sum_{r=1}^{p} \beta_r h_{t-i-j-l-r} \right) \\
+	&\vdots \\
+	&= \alpha_0 \sum_{k=0}^{\infty} M(t,\ k).
+\end{align*}
+上式で記述されている通り，$M(t,\ k)$は以下の規則で表される:
+\begin{align*}
+	M(t,\ 0) &= 1, \\
+	M(t,\ 1) &= \left( \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \sum_{i=1}^{p} \beta_i \right), \\
+	M(t,\ 2) &= \left( \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{p} \beta_i \right) \\
+		&= M(t-i,\ 1) \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + M(t-i,\ 1) \sum_{i=1}^{p} \beta_i \\
+	M(t,\ 3) &= M(t,\ 2) \sum_{l=1}^{q} \alpha_l \eta_{t-i-j-l}^2 + M(t,\ 2) \sum_{l=1}^{p} \beta_l \\
+		&= \left( \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{p} \beta_i \right) \sum_{l=1}^{q} \alpha_l \eta_{t-i-j-l}^2 \\
+			&\quad+ \left( \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right)\sum_{i=1}^{p} \beta_i \right) \sum_{l=1}^{p} \beta_l \\
+		&= \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 \left( \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right) \left( \sum_{l=1}^{q} \alpha_l \eta_{t-i-j-l}^2 + \sum_{l=1}^{p} \beta_l \right) \right) \\
+			&\quad+ \sum_{i=1}^{p} \beta_i \left( \left( \sum_{j=1}^{q} \alpha_j \eta_{t-i-j}^2 + \sum_{j=1}^{p} \beta_j \right) \left( \sum_{l=1}^{q} \alpha_l \eta_{t-i-j-l}^2 + \sum_{l=1}^{p} \beta_l \right) \right) \\
+		&= M(t-i,\ 2) \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + M(t-i,\ 2) \sum_{i=1}^{p} \beta_i \\
+	\vdots \\
+	M(t,\ k+1) &= M(t-i,\ k) \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + M(t-i,\ k) \sum_{i=1}^{p} \beta_i \\
+	\vdots	
+\end{align*}
+$\eta_t$は独立に分布$N(0,\ 1)$に従うという仮定の下，$M(t,\ k)$のモーメントは時点$t$に依存しない:
+\[
+	E[M(t,\ k)^r] = E[M(s,\ k)^r], \hspace{20pt} t \neq s,\ r \in \mathbb{N}.
+\]
+従って$1$次モーメントの計算は次の結果を得る．$k \geq 1$として，
+\begin{align*}
+	E[M(t,\ k)] &= E\left[ M(t-i,\ k-1) \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + M(t-i,\ k-1) \sum_{i=1}^{p} \beta_i \right] \\
+	&= \left( \sum_{i=1}^{q} \alpha_i E[\eta_{t-i}^2] + \sum_{i=1}^{p} \beta_i \right) E[M(t,\ k-1)] \\
+	&= \left( \sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i \right)^2 E[M(t,\ k-2)] \\
+	&\vdots \\
+	&= \left( \sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i \right)^k E[M(t,\ 0)] \\
+	&= \left( \sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i \right)^k.
+\end{align*}
+最終的に$\epsilon_t^2$の$1$次モーメントは，
+\begin{align*}
+	E[\epsilon_t^2\ |\ \psi_{t-1}] = E[h_t] &= E\left[ \alpha_0 \sum_{k=0}^{\infty} M(t,\ k) \right] 
+	= \alpha_0 E\left[ \sum_{k=0}^{\infty} M(t,\ k) \right]
+\end{align*}
+ここで定理の広義定常性の仮定から$E[h_t] < \infty$でなければならず，従って$\sum_{k=0}^{\infty} M(t,\ k)\ (\geq 0)$は可積分である必要がある．
+よって$\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$である．逆に，
+$\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$が仮定されていれば無限級数が可積分である為，
+\[
+	\alpha_0 E\left[ \sum_{k=0}^{\infty} M(t,\ k) \right] = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1} < \infty
+\]
+が正当化される．そしてこれは時点に依存しない分散である．また，
+\begin{align*}
+	E[\epsilon_t\ |\ \psi_{t-1}] &= E[\eta_t]E[h_t^\frac{1}{2}] = 0,\\
+	Cov[\epsilon_t,\ \epsilon_s] &= Cov[\eta_t h_t^\frac{1}{2},\ \eta_s h_s^\frac{1}{2}] \\
+	&= E[\eta_t h_t^\frac{1}{2}\ \eta_s h_s^\frac{1}{2}] \\
+	&= 0.
+\end{align*}
+であることも従うので，定理が示されるのである．
+\qed
+\end{proof}
+
+\begin{boxnote}
+	\begin{prop}
+	hoge
+	\end{prop}
+\end{boxnote}
+\begin{proof}
+\end{proof}
+
+\begin{boxnote}
+	\begin{prop}
+	
+	\end{prop}
+\end{boxnote}
+\begin{proof}
+\end{proof}
+
 
 \end{document}
