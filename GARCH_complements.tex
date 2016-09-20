@@ -112,14 +112,19 @@ $\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$が仮定されていれ�
 
 本稿の最初に示した$GARCH$モデルの式の同値形を表記する:
 \begin{align*}
-	\epsilon_t \equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d. \mbox{を仮定している下で,}\\
+	\epsilon_t &\equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d. \mbox{を仮定している下で,}\\
 	h_t &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
-	&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \frac{epsilon_{t-i}^2}{\eta_{t-i}^2}
+	&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i (h_{t-i} - \epsilon_{t-i}^2) \\
+	&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2).
 \end{align*}
 
 \begin{boxnote}
 	\begin{prop}
-	$GARCH(1,\ 1)について，$
+	$GARCH(1,\ 1)について，h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} 過程の 2m 次のモーメント E[\epsilon_t^{2m}] が存在する為の必要十分条件は$
+	\begin{align*}
+		\mu(\alpha_1,\ \beta_1,\ m) \equiv \sum_{j=0}^{m} \binom{m}{j} a_j \alpha_1^j \beta_1^{m-j} < 1, \hspace{20pt} a_0 = 1,\ a_j = \prod_{i=1}^{j} (2j-1)
+	\end{align*}
+	$であり，このとき 2m 次のモーメントは次の様に表せる:$
 	\end{prop}
 \end{boxnote}
 \begin{proof}
