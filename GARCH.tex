@@ -67,9 +67,9 @@ $GARCH$ モデルは金融資産のリターンの履歴 $\epsilon$ とリター
 係数の非負性は，分散 $h_t$ が負数にならない為にある．\\[1ex]
 $GARCH(p,\ q)$で表されるリターンの確率過程$\{ \epsilon_t \}_t$が広義定常，すなわち，時点に依存しない値が存在して，
 \begin{align*}
-	E[\epsilon_t\ |\ \psi_{t-1}] &= \mu < \infty, \\
-	V[\epsilon_t\ |\ \psi_{t-1}] &= \sigma^2 < \infty, \\
-	Cov[\epsilon_t,\ \epsilon_{t-i}\ |\ \psi_{t-1}] &= \rho_i < \infty.
+	E[\epsilon_t] &= \mu < \infty, \\
+	V[\epsilon_t] &= \sigma^2 < \infty, \\
+	Cov[\epsilon_t,\ \epsilon_{t-i}] &= \rho_i < \infty.
 \end{align*}
 と表せるための必要十分条件は
 \[
@@ -81,14 +81,20 @@ $GARCH(p,\ q)$で表されるリターンの確率過程$\{ \epsilon_t \}_t$が�
 \]
 を仮定すれば，
 \[
-	E[\epsilon_t\ |\ \psi_{t-1}] = 0,\ V[\epsilon_t\ |\ \psi_{t-1}] = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1},
-	\ Cov[\epsilon_t,\ \epsilon_s\ |\ \psi_{t-1}] &= 0
+	E[\epsilon_t] = 0,\ V[\epsilon_t] = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1},
+	\ Cov[\epsilon_t,\ \epsilon_s] &= 0
 \]
 が成り立つ．特に，$GARCH(1,\ 1)$では
+
 \[
-	E[\epsilon_t\ |\ \psi_{t-1}] = 0,\ V[\epsilon_t\ |\ \psi_{t-1}] = \alpha_0 \left( 1 - \alpha_1 - \beta_1 \right)^{-1},
-	\ Cov[\epsilon_t,\ \epsilon_s\ |\ \psi_{t-1}] &= 0 \Leftrightarrow \alpha_1 + \beta_1 < 1
+	\alpha_1 + \beta_1 < 1 \hspace{20pt} \Leftrightarrow \hspace{20pt}
+	\begin{cases}
+		E[\epsilon_t] &= 0 \\
+		V[\epsilon_t] &= \alpha_0 \left( 1 - \alpha_1 - \beta_1 \right)^{-1} \\
+		Cov[\epsilon_t,\ \epsilon_s] &= 0
+	\end{cases}
 \]
+
 である．
 }
 

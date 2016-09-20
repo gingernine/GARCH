@@ -12,11 +12,16 @@
 \def\vector#1{\mbox{\boldmath $#1$}}
 \begin{document}
 
-\Section{1}{GENERAKIZED\ AUTOREGRESSIVE\ CONDITIONAL\ HETEROSLEDASTICITY}
+$本稿は GARCH 理論の習得の覚書である．論文には理論部分の証明が Appendix として載せられている．
+その証明を読まないとモデルが何を表しているのかわからないので自分でも読んで書いて覚えようとするのだけれども，省略されている部分を懇切丁寧に補ってもらわないと
+僕が付いて行けないので，後学のために証明にくどいほど補間して書き直しておくのである．$
+
+\Section{1}{GENERALIZED\ AUTOREGRESSIVE\ CONDITIONAL\ HETEROSKEDASTICITY}
 
 $GARCH$モデル:
 \begin{eqnarray*}
-	h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} .
+	&h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}, \\
+	&\alpha_0 \geq 0, \hspace{20pt} \alpha_i > 0, \hspace{20pt} \beta_i \geq 0.
 \end{eqnarray*}
 
 \begin{boxnote}
@@ -90,21 +95,25 @@ $\eta_t$は独立に分布$N(0,\ 1)$に従うという仮定の下，$M(t,\ k)$�
 \end{align*}
 最終的に$\epsilon_t^2$の$1$次モーメントは，
 \begin{align*}
-	E[\epsilon_t^2\ |\ \psi_{t-1}] = E[h_t] &= E\left[ \alpha_0 \sum_{k=0}^{\infty} M(t,\ k) \right] 
-	= \alpha_0 E\left[ \sum_{k=0}^{\infty} M(t,\ k) \right]
+	E[\epsilon_t^2] = E\left[ E[\epsilon_t^2\ |\ \psi_{t-1}] \right] = E[h_t]
+	= E\left[ \alpha_0 \sum_{k=0}^{\infty} M(t,\ k) \right]
+	= \alpha_0 E\left[ \sum_{k=0}^{\infty} M(t,\ k) \right].
 \end{align*}
 ここで定理の広義定常性の仮定から$E[h_t] < \infty$でなければならず，従って$\sum_{k=0}^{\infty} M(t,\ k)\ (\geq 0)$は可積分である必要がある．
-よって$\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$である．逆に，
+正項級数が可積分なら$Lebesgue$の収束定理により項別積分に持ち込むことができ，よって$\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$である．逆に，
 $\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$が仮定されていれば無限級数が可積分である為，
 \[
-	\alpha_0 E\left[ \sum_{k=0}^{\infty} M(t,\ k) \right] = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1} < \infty
+	\alpha_0 E\left[ \sum_{k=0}^{\infty} M(t,\ k) \right] = \alpha_0 \sum_{k=0}^{\infty} E\left[ M(t,\ k) \right] = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1} < \infty
 \]
-が正当化される．そしてこれは時点に依存しない分散である．また，
+が正当化される．そしてこれは時点に依存しない分散である．また，時点 $t-1$ までの情報が与えられた下で $h_t$ は決定されることと，
+$\eta_t$が時点に関して独立に標準正規分布に従うことに注意すれば，
 \begin{align*}
-	E[\epsilon_t\ |\ \psi_{t-1}] &= E[\eta_t]E[h_t^\frac{1}{2}] = 0,\\
-	Cov[\epsilon_t,\ \epsilon_s] &= Cov[\eta_t h_t^\frac{1}{2},\ \eta_s h_s^\frac{1}{2}] \\
-	&= E[\eta_t h_t^\frac{1}{2}\ \eta_s h_s^\frac{1}{2}] \\
-	&= 0.
+	E[\epsilon_t\ |\ \psi_{t-1}] &= E[\eta_t]h_t^\frac{1}{2} = 0\ \\
+	&\Rightarrow\ E[\epsilon_t] = 0, \\
+	Cov[\epsilon_t,\ \epsilon_s\ |\ \psi_{t-1}] &= Cov[\eta_t h_t^\frac{1}{2},\ \eta_s h_s^\frac{1}{2}\ |\ \psi_{t-1}] \\
+	&= E[\eta_t h_t^\frac{1}{2}\ \eta_s h_s^\frac{1}{2}\ |\ \psi_{t-1}] \\
+	&= 0 \\
+	&\Rightarrow\ Cov[\epsilon_t,\ \epsilon_s] = 0.
 \end{align*}
 であることも従うので，定理が示されるのである．
 \qed
@@ -122,20 +131,155 @@ $\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$が仮定されていれ�
 	\begin{prop}
 	$GARCH(1,\ 1)について，h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} 過程の 2m 次のモーメント E[\epsilon_t^{2m}] が存在する為の必要十分条件は$
 	\begin{align*}
-		\mu(\alpha_1,\ \beta_1,\ m) \equiv \sum_{j=0}^{m} \binom{m}{j} a_j \alpha_1^j \beta_1^{m-j} < 1, \hspace{20pt} a_0 = 1,\ a_j = \prod_{i=1}^{j} (2j-1)
+		\mu(\alpha_1,\ \beta_1,\ m) \equiv \sum_{j=0}^{m} \binom{m}{j} a_j \alpha_1^j \beta_1^{m-j} < 1, \hspace{20pt} a_0 = 1,\ a_j = \prod_{i=1}^{j} (2i-1)
 	\end{align*}
 	$であり，このとき 2m 次のモーメントは次の様に表せる:$
+	\[
+		E[\epsilon_t^{2m}] = a_m \left[ \sum_{n=0}^{m-1} a_n^{-1} E[\epsilon_t^{2n}] \alpha_0^{m-n} \binom{m}{m-n} \mu(\alpha_1, \beta_1, n) \right]
+		\times \left[ 1-\mu(\alpha_1, \beta_1, m) \right]^{-1}.
+	\]
 	\end{prop}
 \end{boxnote}
 \begin{proof}
-\end{proof}
+$標準正規分布に従う確率変数 X の 2m\ (m \in \mathbb{N}) 次のモーメントの計算を確認しておく．$
+\begin{align*}
+	E[x^{2m}] &= \int_{-\infty}^{\infty} x^{2m} \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} dx \\
+	&= 2 \frac{1}{\sqrt{2 \pi}} \int_{0}^{\infty} (2x)^{m} e^{-x} \frac{1}{\sqrt{2x}} dx \\
+	&= \frac{1}{\sqrt{2 \pi}} 2^{m+\frac{1}{2}} \Gamma(m+\frac{1}{2}) \\
+	&= \frac{1}{\sqrt{2 \pi}} 2^{m+\frac{1}{2}} \frac{(2m-1)(2m-3) \cdots 1}{2^m} \sqrt{\pi} \\
+	&= \prod_{i=1}^{m} (2i-1).
+\end{align*}
+$\eta_t の正規性と，情報構造\psi_{t-1} が与えられた下で h_t が定数となることに注意すると以下の式が成り立つ．$
+\begin{align*}
+	a_m &\equiv E[\eta_t^{2m}] = \prod_{i=1}^{m} (2i-1), \\
+	E[\epsilon_t^{2m}] &= E \left[ E[\epsilon_t^{2m}\ |\ \psi_{t-1}] \right] = E \left[ E[\eta_t^{2m} h_t^m\ |\ \psi_{t-1}] \right] 
+	=  E[h_t^m] E[\eta_t^{2m}] = a_m E[h_t^m].
+\end{align*}
+$GARCH(1,\ 1) の下では h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} であるから，$
+\begin{align*}
+	h_t^m &= \left( \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} \right)^m \\
+	&= \sum_{n=0}{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}{n} \alpha_1^j \beta_1^{n-j} \epsilon_{t-1}^2j h_{t-1}^{n-j}.
+\end{align*}
+$従って，時点 t-2 までの情報を与えると，$
+\begin{align*}
+	E[h_t^m\ |\ \psi_{t-2}] &= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} \alpha_1^j \beta_1^{n-j} E[\epsilon_{t-1}^{2j} h_{t-1}^{n-j}\ |\ \psi_{t-2}] \\
+	&= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} \alpha_1^j \beta_1^{n-j} h_{t-1}^{n-j} E[\epsilon_{t-1}^{2j}\ |\ \psi_{t-2}] \\
+	&= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} \alpha_1^j \beta_1^{n-j} h_{t-1}^{n-j} h_{t-1}^j a_j \\
+	&= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} h_{t-1}^n.
+\end{align*}
+$ここで m 次元ベクトル \vector{w}_t \equiv (h_t^m, h_t^{m-1}, \cdots, h_t)^{T} に対して，期待値を取ると，$
+\begin{align*}
+	E[\vector{w}_t\ |\ \psi_{t-2}] &= (\ E[h_t^m\ |\ \psi_{t-2}],\ E[h_t^{m-1}\ |\ \psi_{t-2}],\ E[h_t^{m-2}\ |\ \psi_{t-2}],\ \cdots \ ,\ E[h_t\ |\ \psi_{t-2}]\ )^{T} \\
+	&= \left(
+		\begin{array}{c}
+			\sum\limits_{n=0}^{m} h_{t-1}^n \binom{m}{n} \alpha_0^{m-n} \sum\limits_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} \\
+			\sum\limits_{n=0}^{m-1} h_{t-1}^n \binom{m-1}{n} \alpha_0^{m-1-n} \sum\limits_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} \\
+			\sum\limits_{n=0}^{m-2} h_{t-1}^n \binom{m-2}{n} \alpha_0^{m-2-n} \sum\limits_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} \\
+			\vdots \\
+			\sum\limits_{n=0}^{1} h_{t-1}^n \binom{1}{n} \alpha_0^{1-n} \sum\limits_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j}
+		\end{array} 
+		\right) \\
+	&= a_0\left(
+		\begin{array}{c}
+			\alpha_0^{m} \\
+			\alpha_0^{m-1} \\
+			\alpha_0^{m-2} \\
+			\vdots \\
+			\alpha_0
+		\end{array} 
+		\right) 
+		\\
+		&\quad+ {\tiny
+		\left(
+		\begin{array}{ccccc}
+			\sum\limits_{j=0}^{m} \binom{m}{j} a_j \alpha_1^j \beta_1^{m-j} & \binom{m}{m-1} \alpha_0 \sum\limits_{j=0}^{m-1} \binom{m-1}{j} a_j \alpha_1^j \beta_1^{m-1-j} & \binom{m}{m-2} \alpha_0^{2} \sum\limits_{j=0}^{m-2} \binom{m-2}{j} a_j \alpha_1^j \beta_1^{m-2-j} & \ldots & \binom{m}{1} \alpha_0^{m-1} \sum\limits_{j=0}^{1} \binom{1}{j} a_j \alpha_1^j \beta_1^{1-j} \\
+			0 & \sum\limits_{j=0}^{m-1} \binom{m-1}{j} a_j \alpha_1^j \beta_1^{m-1-j} & \binom{m-1}{m-2} \alpha_0 \sum\limits_{j=0}^{m-2} \binom{m-2}{j} a_j \alpha_1^j \beta_1^{m-2-j} & \ldots & \binom{m-1}{1} \alpha_0^{m-2} \sum\limits_{j=0}^{1} \binom{1}{j} a_j \alpha_1^j \beta_1^{1-j} \\
+			0 & 0 & \sum\limits_{j=0}^{m-2} \binom{m-2}{j} a_j \alpha_1^j \beta_1^{m-2-j} & \ldots & \binom{m-2}{1} \alpha_0^{m-3} \sum\limits_{j=0}^{1} \binom{1}{j} a_j \alpha_1^j \beta_1^{1-j} \\
+			\vdots & \vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & 0 & \ldots & \sum\limits_{j=0}^{1} \binom{1}{j} a_j \alpha_1^j \beta_1^{1-j}
+		\end{array}
+		\right)
+		}
+		\left(
+		\begin{array}{c}
+			 h_{t-1}^{m} \\
+			 h_{t-1}^{m-1} \\
+			 h_{t-1}^{m-2} \\
+			\vdots \\
+			 h_{t-1}
+		\end{array}
+		\right) \\
+	&= \vector{d} + \vector{C} \vector{w}_{t-1}.
+\end{align*}
+$ここで m \times m 上三角行列 \vector{C} の対角成分に現れる級数を以下の様に特別に表記し直す．上三角行列なので行列式は対角成分のみから計算されるのである．$
+\[
+	\mu(\alpha_1,\beta_1,\ n) \equiv \sum\limits_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j}
+\]
+$また，与えられる情報構造の鮮度を落としていくと，すなわち \psi_{*} の添え字の時点を後退させると以下の式が成り立つ:$
+\begin{align*}
+	E[\vector{w}_t\ |\ \psi_{t-3}] &= E\left[ E\left[ \vector{w}_t\ |\ \psi_{t-2} \right]\ |\ \psi_{t-3} \right] \\
+		&= E\left[ \vector{d} + \vector{C} \vector{w}_{t-1}\ |\ \psi_{t-3} \right] \\
+		&= \vector{d} + \vector{C} E\left[ \vector{w}_{t-1}\ |\ \psi_{t-3} \right] \\
+		&= \vector{d} + \vector{C} (\vector{d} + \vector{C} \vector{w}_{t-2}) \\
+		&= (\vector{I} + \vector{C})\vector{d} + \vector{C}^2 \vector{w}_{t-2}, \\
+	E[\vector{w}_t\ |\ \psi_{t-4}] &= E\left[ E\left[ \vector{w}_t\ |\ \psi_{t-3} \right]\ |\ \psi_{t-4} \right] \\
+		&= E\left[ (\vector{I} + \vector{C})\vector{d} + \vector{C}^2 \vector{w}_{t-2}\ |\ \psi_{t-4} \right] \\
+		&= (\vector{I} + \vector{C})\vector{d} + \vector{C}^2 E\left[ \vector{w}_{t-2}\ |\ \psi_{t-4} \right] \\
+		&= (\vector{I} + \vector{C} + \vector{C}^2)\vector{d} + \vector{C}^3 \vector{w}_{t-3}, \\
+	\vdots \\
+	E[\vector{w}_t\ |\ \psi_{t-k-1}] &= (\vector{I} + \vector{C} + \vector{C}^2 + \cdots + \vector{C}^{k-1})\vector{d} + \vector{C}^k \vector{w}_{t-k}, \\
+	\vdots 
+\end{align*}
+$これは k \to \infty まで考えると，情報が無い下での期待値，即ち E[\vector{w}_t] を表すことになり， E[h_t^m] が E[\vector{w}_t]　の第一成分であることから，
+行列の冪級数の収束が求める E[\epsilon_t^{2m}] の存在の必要十分条件である:
+ところで冪級数の収束の必要十分条件は行列 \vector{C} の全ての固有値が 1 より小さいことである．
+そして上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n) に等しい．このとき \vector{C} のべき乗 \vector{C}^k の対角成分はひたすら
+対角成分の累乗になり 0 に収束する為， \vector{C}^k が零行列に収束していくということを注意しておく． GARCH モデルの仮定から  \alpha_1,\beta_1 は非負であり，
+a_j は標準正規分布の偶数次のモーメントであるから正数であるから，即ち， \mu(\alpha_1,\beta_1,\ n) は n に関して非負単調増大であり， 
+\mu(\alpha_1,\beta_1,\ m) < 1 であることが冪級数の収束の十分条件を為す．よって \mu(\alpha_1,\beta_1,\ m) < 1 であることは E[\epsilon_t^{2m}] の存在の
+十分条件となる．一方， E[\epsilon_t^{2m}] が存在すれば 2(m-1),\ 2(m-2),\ \cdots ,\ 2 次モーメントも存在することになるので，$
+\[
+	E[\vector{w}_t] = \lim_{k \to \infty} E[\vector{w}_t\ |\ \psi_{t-k-1}] < \infty,
+\]
+$即ち冪級数は収束し，\mu(\alpha_1,\beta_1,\ m) < 1 が従う．$
 
-\begin{boxnote}
-	\begin{prop}
-	
-	\end{prop}
-\end{boxnote}
-\begin{proof}
+最後に
+\[
+	E[\epsilon_t^{2m}] = a_m \left[ \sum_{n=0}^{m-1} a_n^{-1} E[\epsilon_t^{2n}] \alpha_0^{m-n} \binom{m}{m-n} \mu(\alpha_1, \beta_1, n) \right]
+		\times \left[ 1-\mu(\alpha_1, \beta_1, m) \right]^{-1}
+\]
+を示す．
+\begin{align*}
+	E[\epsilon_t^{2m}] &= a_m E[h_t^m], \\
+	E[h_t^m\ |\ \psi_{t-2}] &= \sum_{n=0}^{m}　h_{t-1}^n \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j}
+\end{align*}
+が成り立っていることにより，
+\begin{align*}
+	E[\epsilon_t^{2m}] &= a_m E[h_t^m] \\
+	&= a_m E\left[ E[h_t^m\ |\ \psi_{t-2}] \right] \\
+	&= a_m E\left[ \sum_{n=0}^{m}　h_{t-1}^n \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} \right] \\
+	&= a_m \left[ \sum_{n=0}^{m}　E[h_{t-1}^n] \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] \\
+	&= a_m \left[ \sum_{n=0}^{m-1}　a_n^{-1} E[\epsilon_{t-1}^{2n}] \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] + a_m a_m^{-1}  E[\epsilon_{t-1}^{2m}] \mu(\alpha_1,\beta_1,\ m).
+\end{align*}
+$E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなければならない，というのも，先述の行列の冪級数の収束の箇所で，$
+\[
+	\left(
+	\begin{array}{c}
+		a_m^{-1} E[\epsilon_t^{2m}] \\
+		a_{m-1}^{-1} E[\epsilon_t^{2(m-1)}] \\
+		a_{m-2}^{-1} E[\epsilon_t^{2(m-2)}] \\
+		\vdots \\
+		a_1^{-1} E[\epsilon_t^2]
+	\end{array}
+	\right)
+	= E[\vector{w}_t] = \lim_{k \to \infty} E[\vector{w}_t\ |\ \psi_{t-k-1}] = (\vector{I} - \vector{C})^{-1} \vector{d}
+\]
+が成り立っているのである．従って，最右辺第二項を左辺に移せば，求める式
+\[
+	E[\epsilon_t^{2m}] = a_m \left[ \sum_{n=0}^{m-1}　a_n^{-1} E[\epsilon_t^{2n}] \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] [1 - \mu(\alpha_1,\beta_1,\ m)]^{-1}
+\]
+が導かれる．
+\qed
 \end{proof}
 
 
