@@ -34,6 +34,11 @@
 	\item 金融資産の価値の変動の履歴が確率過程に従っているとして，$GARCH$モデル式はその確率過程を表す．
 	\vspace{5mm}
 	\item モデル式の中に資産価値の変動の分散の履歴を組み入れている．
+	\vspace{5mm}
+	\item $S\&P500\ index\ option$ のサンプルデータからパラメータを求めて，インデックスのサンプル外の部分を計算したところ，
+		他のモデルに比べて実際の値との差を小さくできた $Heston,\ Nandi (2000)$.
+	\vspace{5mm}
+	\item $GARCH$モデルがサンプル外の値を上手く言い当てたのは，インデックスの履歴とインデックスのボラティリティとの相関関係を活用できるからである $Heston,\ Nandi (2000)$.
 \end{itemize}
 }
 
@@ -129,6 +134,8 @@ $GARCH(1,\ 1)$ モデルについて，モデル式
 \begin{itemize}
 	\vspace{10mm}
 	\item [1].\ Tim\ Bollerslev\ (1986),\quad ''GENERALIZED\ AUTOREGRESSIVE\ CONDITIONAL\ HETEROSKEDASTICITY''.
+	\vspace{5mm}
+	\item [2].\ Steven\ L.\ Heston,\ Saikat\ Nandi\ (2000),\quad ''A\ Closed-Form\ GARCH\ Option\ Valuation\ Model''.
 \end{itemize}
 
 }
