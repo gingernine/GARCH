@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.7-160201-2.6 (sjis) (TeX Live 2016/W32TeX) (preloaded format=platex 2016.7.14)  22 SEP 2016 02:44
+This is e-pTeX, Version 3.14159265-p3.7-160201-2.6 (sjis) (TeX Live 2016/W32TeX) (preloaded format=platex 2016.7.14)  22 SEP 2016 02:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -462,6 +462,8 @@ l.93 ^^I\ Cov[\epsilon_t,\ \epsilon_s] &
 ? 
 [4] [5
 
+] [6
+
 ] (./GARCH.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -476,4 +478,4 @@ Here is how much of TeX's memory you used:
  934 hyphenation exceptions out of 8191
  27i,8n,26p,242b,298s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on GARCH.dvi (6 pages, 8692 bytes).
+Output written on GARCH.dvi (7 pages, 9092 bytes).
