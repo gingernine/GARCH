@@ -21,7 +21,7 @@
 
 $本稿は GARCH 理論の習得の覚書である．論文には理論部分の証明が Appendix として載せられている．
 その証明を読まないとモデルが何を表しているのかわからないので自分でも読んで書いて覚えようとするのだけれども，省略されている部分を懇切丁寧に補ってもらわないと
-僕が付いて行けないので，後学のために証明にくどいほど補間して書き直しておくのである．$
+僕が付いて行けないので，後学のために証明にくどいほど詳解を付けておくのである．本文中のわかりづらかった部分も補完したものを載せてある．$
 
 \Section{1}{GENERALIZED\ AUTOREGRESSIVE\ CONDITIONAL\ HETEROSKEDASTICITY}
 
@@ -390,7 +390,7 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 		\rho_n = \gamma_n \gamma_0^{-1} = \sum_{i=1}^{m} \phi_i \gamma_{n - i} \gamma_0^{-1} = \sum_{i=1}^{m} \phi_i \rho_{n - i},\quad  n \geq p+1.
 	\]
 	この式が表していることは，自己相関係数 $\rho_{p},\ \rho_{p-1},\ \rho_{p-2},\ \cdots,\ \rho_{p+1-m}$ によって任意の時点 $n$ での $\rho_n$ が一意に定まるということである．\\
-	 
+	
 \end{breakbox}
 \begin{proof}
 \end{proof}
