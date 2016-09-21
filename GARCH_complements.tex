@@ -4,12 +4,19 @@
 \usepackage{amsfonts}
 \usepackage{latexsym}
 \usepackage{ascmac}
+\usepackage{boites}
 \allowdisplaybreaks[1]
 \newcommand{\Section}[2]{\section*{\S #1 .\hspace{5pt} #2}}
 \newtheorem{prop}{定理}
 \newtheorem{proof}{証明}
 \def\qed{\hfill $\Box$}
 \def\vector#1{\mbox{\boldmath $#1$}}
+\def\norm#1{\mbox{$\left\| #1 \right\|$}}
+\def\det#1{\mbox{$det \left( #1 \right)$}}
+\def\diag#1{\mbox{$diag \left( #1 \right)$}}
+\def\Exp#1{\mbox{$E \left[ #1 \right]$}}
+\def\Var#1{\mbox{$V \left[ #1 \right]$}}
+\def\Cov#1#2{\mbox{$Cov \left[ #1,\ #2 \right]$}}
 \begin{document}
 
 $本稿は GARCH 理論の習得の覚書である．論文には理論部分の証明が Appendix として載せられている．
@@ -119,14 +126,6 @@ $\eta_t$が時点に関して独立に標準正規分布に従うことに注意
 \qed
 \end{proof}
 
-本稿の最初に示した$GARCH$モデルの式の同値形を表記する:
-\begin{align*}
-	\epsilon_t &\equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d. \mbox{を仮定している下で,}\\
-	h_t &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
-	&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i (h_{t-i} - \epsilon_{t-i}^2) \\
-	&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2).
-\end{align*}
-
 \begin{boxnote}
 	\begin{prop}
 	$GARCH(1,\ 1)について，h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} 過程の 2m 次のモーメント E[\epsilon_t^{2m}] が存在する為の必要十分条件は$
@@ -231,10 +230,43 @@ $また，与えられる情報構造の鮮度を落としていくと，すな�
 	\vdots 
 \end{align*}
 $これは k \to \infty まで考えると，情報が無い下での期待値，即ち E[\vector{w}_t] を表すことになり， E[h_t^m] が E[\vector{w}_t]　の第一成分であることから，
-行列の冪級数の収束が求める E[\epsilon_t^{2m}] の存在の必要十分条件である:
-ところで冪級数の収束の必要十分条件は行列 \vector{C} の全ての固有値が 1 より小さいことである．
-そして上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n) に等しい．このとき \vector{C} のべき乗 \vector{C}^k の対角成分はひたすら
-対角成分の累乗になり 0 に収束する為， \vector{C}^k が零行列に収束していくということを注意しておく． GARCH モデルの仮定から  \alpha_1,\beta_1 は非負であり，
+行列の冪級数の収束が求める E[\epsilon_t^{2m}] の存在の必要十分条件である:\\
+ところで冪級数の収束の必要十分条件は行列 \vector{C} の全ての固有値が 1 より小さいことである．これを証明してみよう．ただし，\vector{C} のべき乗 \vector{C}^k の対角成分はひたすら
+対角成分の累乗になり 0 に収束する為， \vector{C}^k が零行列に収束していくということを注意しておく．$
+
+\begin{breakbox}
+	行列 $\vector{A}$ のスペクトルノルムの定義は次の様に表される:
+	\[
+		\norm{\vector{A}} = \sup_{\vector{x} \neq \vector{0}} \frac{\norm{\vector{Ax}}}{\norm{\vector{x}}}.
+	\]
+	定義に基づけば
+	\[
+		\norm{\vector{AB}} = \sup_{\vector{x} \neq \vector{0}} \frac{\norm{\vector{ABx}}}{\norm{\vector{x}}} \leq \sup_{\vector{x} \neq \vector{0}} \frac{\norm{\vector{A}}\norm{\vector{Bx}}}{\norm{\vector{x}}}
+		= \norm{\vector{A}}\norm{\vector{B}},
+	\]
+	が成り立ち，このことを利用すれば，$\norm{\vector{A}} < \alpha$ であるとき，
+	\[
+		\norm{\vector{A^n}} = \norm{\vector{AA^{n-1}}} 
+		\leq \norm{\vector{A}}\norm{\vector{A^{n-1}}}
+		\leq \norm{\vector{A}}^2 \norm{\vector{A^{n-2}}} \cdots \leq \norm{\vector{A}}^n \ <\ \alpha^n
+	\]
+	と表すことが出来る．ここで冪級数の話に戻る．冪級数の全体ののルムを考えると,
+	\[
+		\norm{\vector{I} + \vector{C} + \vector{C}^2 + \cdots } \leq \norm{\vector{I}} + \norm{\vector{C}} + \norm{\vector{C}^2} + \cdots, 
+	\]
+	従って実数値の冪級数の収束条件が適用できて， $\norm{\vector{C}} < 1$ であるなら上式左辺が項数に関して $Cauchy$ 列をなす．
+	即ち或る有限な成分から構成される行列が存在し，冪級数はそれに収束する．対偶を考えれば行列の冪級数の収束の必要十分条件が $\norm{\vector{C}} < 1$ であることがわかる．
+	ところで，$\norm{\vector{C}}$　の値は　$\vector{C}\vector{C}^{T}$　の最大固有値に等しいのであった．
+	$\vector{C}$ が上三角行列であることから $\vector{C}\vector{C}^{T}$ は実対称行列になる．$\vector{C}$ の成分を構成しているのは非負を仮定してある
+	$GARCH(1,\ 1)$ の係数と標準正規分布の偶数次モーメントであることから，その加算乗算で構成される $\vector{C}\vector{C}^{T}$ の成分は全て非負であり，
+	$\vector{C}\vector{C}^{T}$ の行列式は$\vector{C}$ の対角成分の平方和よりも大きくなる:
+	\[
+		%\norm{\vector{C}} = \det{\vector{C}\vector{C}^{T}} \geq \sum_{c \in \diag{\vector{C}}} c^2,
+	\]
+	
+\end{breakbox}
+
+$上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n) に等しい． GARCH モデルの仮定から  \alpha_1,\beta_1 は非負であり，
 a_j は標準正規分布の偶数次のモーメントであるから正数であるから，即ち， \mu(\alpha_1,\beta_1,\ n) は n に関して非負単調増大であり， 
 \mu(\alpha_1,\beta_1,\ m) < 1 であることが冪級数の収束の十分条件を為す．よって \mu(\alpha_1,\beta_1,\ m) < 1 であることは E[\epsilon_t^{2m}] の存在の
 十分条件となる．一方， E[\epsilon_t^{2m}] が存在すれば 2(m-1),\ 2(m-2),\ \cdots ,\ 2 次モーメントも存在することになるので，$
@@ -280,6 +312,87 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 \]
 が導かれる．
 \qed
+\end{proof}
+
+\begin{breakbox}
+	本稿の最初に示した$GARCH$モデルの式の同値形を表記する:
+	\begin{align*}
+		\epsilon_t &\equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d. \mbox{を仮定している下で,}\\
+		h_t &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
+		&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i (h_{t-i} - \epsilon_{t-i}^2) \\
+		&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2).
+	\end{align*}
+	$両辺に \epsilon_t^2 - h_t を加えると，$
+	\begin{align*}
+		\epsilon_t^2 &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \epsilon_{t-i}^2 
+			+ \sum_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2) + \epsilon_t^2 - h_t \\
+		&= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i \epsilon_{t-i}^2 
+			+ \sum_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2) + h_t(\eta_t^2 - 1).
+	\end{align*}
+\end{breakbox}
+
+\begin{breakbox}
+	$GARCH(p,\ q) 過程に 4 次モーメントの存在を仮定する．共分散を次の様に表記する．$
+	\[
+		\gamma_n\ \equiv\ \gamma_{-n}\ \equiv \Cov{\epsilon_t^2}{\epsilon_{t-n}^2}.
+	\]
+	上のスクリーンで表されるモデル式を利用すれば，共分散の計算は以下の様に書き下せる:
+	\begin{align*}
+		\gamma_n\ &= \Cov{\epsilon_t^2}{\epsilon_{t-n}^2} \\
+		&= \Cov{\alpha_0 + \sum\limits_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 
+			+ \sum\limits_{i=1}^{p} \beta_i \epsilon_{t-i}^2 
+			+ \sum\limits_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2) + h_t(\eta_t^2 - 1)}{\epsilon_{t-n}^2} \\
+		&= \Cov{\sum\limits_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 
+			+ \sum\limits_{i=1}^{p} \beta_i \epsilon_{t-i}^2 
+			+ \sum\limits_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2) + h_t(\eta_t^2 - 1)}{\epsilon_{t-n}^2}.
+	\end{align*}
+	ここで，モデルの定常性が仮定されていれば，時点に依らず $\Exp{\epsilon_t^2} = 0,\\
+	\Exp{h_t(\eta_t^2 - 1)} = \Exp{h_t}\Exp{\eta_t^2 - 1} = 0,\ \Cov{\epsilon_t^2}{\epsilon_{t-n}^2} = \Exp{\epsilon_t^2 \epsilon_{t-n}^2}$
+	が成り立つので，
+	共分散は
+	\begin{align*}
+		&\Cov{\sum\limits_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 
+			+ \sum\limits_{i=1}^{p} \beta_i \epsilon_{t-i}^2 
+			+ \sum\limits_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2) + h_t(\eta_t^2 - 1)}{\epsilon_{t-n}^2} \\
+		&= \Exp{\left\{ 
+			\sum\limits_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 
+			+ \sum\limits_{i=1}^{p} \beta_i \epsilon_{t-i}^2 
+			+ \sum\limits_{i=1}^{p} \beta_i h_{t-i}(1 - \eta_{t-i}^2) + h_t(\eta_t^2 - 1)
+			\right\} \epsilon_{t-n}^2} \\
+		&= \sum_{i=1}^{q} \alpha_i \Exp{\epsilon_{t-i}^2 \epsilon_{t-n}^2}
+			+ \sum_{i=1}^{p} \beta_i \Exp{\epsilon_{t-i}^2 \epsilon_{t-n}^2}
+			+ \sum_{i=1}^{p} \beta_i \Exp{h_{t-i}(1 - \eta_{t-i}^2) \epsilon_{t-n}^2} + \Exp{h_t(\eta_t^2 - 1) \epsilon_{t-n}^2} \\
+		&= \sum_{i=1}^{q} \alpha_i \gamma_{n - i} 
+			+ \sum_{i=1}^{p} \beta_i \gamma_{n - i} 
+			+ \sum_{i=1}^{p} \beta_i \Exp{h_{t-i}(1 - \eta_{t-i}^2) \epsilon_{t-n}^2} + \Exp{h_t}\Exp{\eta_t^2 - 1}\Exp{\epsilon_{t-n}^2} \\
+		&= \sum_{i=1}^{q} \alpha_i \gamma_{n - i} 
+			+ \sum_{i=1}^{p} \beta_i \gamma_{n - i}  
+			+ \sum_{i=1}^{p} \beta_i \Exp{h_{t-i}(1 - \eta_{t-i}^2) \epsilon_{t-n}^2}.
+	\end{align*}
+	と表すことが出来る．最右辺第二項には注意が必要で，$n \geq p+1$ でないと $(1 - \eta_{t-i}^2)$ と $\epsilon_{t-n}^2$ との独立性が保証されない．
+	ここで $n \geq p+1$ の下で再び共分散式に戻ろう．
+	\begin{align*}
+		\sum_{i=1}^{q} \alpha_i \gamma_{n - i} 
+			+ \sum_{i=1}^{p} \beta_i \gamma_{n - i} 
+			+ \sum_{i=1}^{p} \beta_i \Exp{h_{t-i}(1 - \eta_{t-i}^2) \epsilon_{t-n}^2} 
+		= \sum_{i=1}^{max(p, q)} (\alpha_i + \beta_i) \gamma_{n - i}
+		= \sum_{i=1}^{m} \phi_i \gamma_{n - i}, \\
+		s.t.\quad n \geq p+1,\quad m \equiv max(p, q),\quad \phi_i \equiv \alpha_i + \beta_i,\quad \alpha_i \equiv 0\ (i \geq q+1),\quad \beta_i \equiv 0\ (i \geq p+1).
+	\end{align*}
+	$\gamma_0^{-1} = \Exp{\epsilon_t^4} < \infty$ が時点に依らない値であることに注意して，時差$n$の自己相関係数 
+	\[
+		\rho_n \equiv \frac{\Cov{\epsilon_t^2}{\epsilon_{t-n}^2}}{\sqrt{\Var{\epsilon_t^2}\Var{\epsilon_{t-n}^2}}} 
+		= \frac{\Cov{\epsilon_t^2}{\epsilon_{t-n}^2}}{\Var{\epsilon_t^2}} 
+		= \gamma_n \gamma_0^{-1}
+	\]
+	に関して次の等式を得る．
+	\[
+		\rho_n = \gamma_n \gamma_0^{-1} = \sum_{i=1}^{m} \phi_i \gamma_{n - i} \gamma_0^{-1} = \sum_{i=1}^{m} \phi_i \rho_{n - i},\quad  n \geq p+1.
+	\]
+	この式が表していることは，自己相関係数 $\rho_{p},\ \rho_{p-1},\ \rho_{p-2},\ \cdots,\ \rho_{p+1-m}$ によって任意の時点 $n$ での $\rho_n$ が一意に定まるということである．\\
+	 
+\end{breakbox}
+\begin{proof}
 \end{proof}
 
 

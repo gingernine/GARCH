@@ -27,6 +27,13 @@
 	\item 直訳すると''一般化された　自己回帰　条件付き　不均一分散''の確率過程．
 	\vspace{5mm}
 	\item $Tim\ Bollerslev$教授によって考案されたモデル．
+	\vspace{5mm}
+	\item 例えば，$Black-Scholes$のオプション価格方程式はサンプルデータが一定の平均と分散を持つという強い仮定に基づくが，
+		$GARCH$モデルは金融資産の分散の不均一であるという場合にも対応出来る．
+	\vspace{5mm}
+	\item 金融資産の価値の変動の履歴が確率過程に従っているとして，$GARCH$モデル式はその確率過程を表す．
+	\vspace{5mm}
+	\item モデル式の中に資産価値の変動の分散の履歴を組み入れている．
 \end{itemize}
 }
 
@@ -47,13 +54,14 @@ $\epsilon_t$ は，時点 $t-1$ までの履歴の情報 $\psi_{t-1}$ が与え�
 \[
 	\epsilon_t|\psi_{t-1} \sim N(0,\ h_t).
 \]
-$GARCH$ モデルの式は以下の様に表される．
+$GARCH$ モデルの式は以下の様に表される: \\
+\qquad 時点 t でのボラティリティ $h_t$ について，
 \[
 	h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}.
 \]
 }
 
-\sheet{\Huge GARCH モデルの理論(2)}
+\sheet{\Huge GARCH モデルの理論(2)　定常性}
 
 {\huge
 $GARCH$ モデルは金融資産のリターンの履歴 $\epsilon$ とリターンの分散 $h$ を使ったモデルである．
@@ -98,5 +106,21 @@ $GARCH(p,\ q)$で表されるリターンの確率過程$\{ \epsilon_t \}_t$が�
 である．
 }
 
+\sheet{\Huge GARCH モデルの理論(3)　2m次モーメントの存在}
+
+{\huge
+もう一つ重要な定理があり，それは次のものである: \\
+\vspace{10mm}
+$GARCH(1,\ 1)$ モデルについて，モデル式
+\[
+	h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1}.
+\]
+に従う確率過程 $\{ \epsilon_t \}_t$ の$2m$次のモーメント$E[\epsilon_t^{2m}]$が存在する為の必要十分条件は，
+\[
+	\sum_{j=0}^{m} \binom{m}{j} a_j \alpha_1^j \beta_1^{m-j} < 1, \hspace{20pt} a_0 = 1,\ a_j = \prod_{i=1}^{j} (2i-1)
+\]
+が成り立つことである．
+
+}
 
 \end{document}
