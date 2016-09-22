@@ -442,16 +442,17 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 	\end{align*}
 	ここで， $\frac{\partial h_t}{\partial \vector{\omega}}$ は次のように示される．
 	\begin{align*}
+		\vector{z}_t &= (z_1,\ z_2,\ \cdots) と表して, \\
 		\frac{\partial h_t}{\partial \omega_i} &= \frac{\partial \vector{z}_t^{T} \vector{\omega}_t}{\partial \omega_i}
 		= \begin{cases}
-			z_i &(i \leq 1+q) \\
-			z_i + \omega_i \frac{\partial z_i}{\partial \omega_i} &(i > 1+q)
+			z_i &(\omega \neq \beta) \\
+			z_i + \omega_i \frac{\partial z_i}{\partial \omega_i} &(\omega = \beta)
 			\end{cases}
 		= \begin{cases}
-			z_i &(i \leq 1+q) \\
-			z_i + \omega_i \frac{\partial h_i}{\partial \omega_i} &(i > 1+q)
+			z_i &(\omega \neq \beta) \\
+			z_i + \beta_i \frac{\partial h_i}{\partial \omega_i} &(\omega = \beta)
 			\end{cases}\qquad であるから，　\\
-		\frac{\partial h_t}{\partial \vector{\omega}} =& \vector{z}_t +  \sum_{i=1}^{p} \beta_i \frac{\partial h_{t-i}}{\partial \vector{\omega}}.
+		\frac{\partial h_t}{\partial \vector{\omega}} &= \vector{z}_t +  \sum_{i=1}^{p} \beta_i \frac{\partial h_{t-i}}{\partial \vector{\omega}}.
 	\end{align*}
 
 
