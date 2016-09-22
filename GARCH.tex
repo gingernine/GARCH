@@ -29,9 +29,7 @@
 	\item $Tim\ Bollerslev$教授によって考案されたモデル．
 	\vspace{5mm}
 	\item 例えば，$Black-Scholes$のオプション価格方程式はサンプルデータが一定の平均と分散を持つという強い仮定に基づくが，
-		$GARCH$モデルは金融資産の分散の不均一であるという場合にも対応出来る．
-	\vspace{5mm}
-	\item 金融資産の価値の変動の履歴が確率過程に従っているとして，$GARCH$モデル式はその確率過程を表す．
+		$GARCH$モデルは金融資産の分散が不均一な場合にも対応出来る．
 	\vspace{5mm}
 	\item モデル式の中に資産価値の変動の分散の履歴を組み入れている．
 	\vspace{5mm}
@@ -78,6 +76,10 @@ $GARCH$ モデルは金融資産のリターンの履歴 $\epsilon$ とリター
 	&& \alpha_0 \geq 0, \hspace{20pt} \alpha_i > 0, \hspace{20pt} \beta_i \geq 0.
 \end{eqnarray*}
 係数の非負性は，分散 $h_t$ が負数にならない為にある．\\[1ex]
+\[
+	\epsilon_t \equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d.
+\]
+が成り立っているとの仮定の下，
 $GARCH(p,\ q)$で表されるリターンの確率過程$\{ \epsilon_t \}_t$が広義定常，すなわち，時点に依存しない値が存在して，
 \begin{align*}
 	E[\epsilon_t] &= \mu < \infty, \\
@@ -88,11 +90,7 @@ $GARCH(p,\ q)$で表されるリターンの確率過程$\{ \epsilon_t \}_t$が�
 \[
 	\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1
 \]
-が成り立つことであり，
-\[
-	\epsilon_t \equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d.
-\]
-を仮定すれば，
+が成り立つことであり，計算すると
 \[
 	E[\epsilon_t] = 0,\ V[\epsilon_t] = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1},
 	\ Cov[\epsilon_t,\ \epsilon_s] &= 0

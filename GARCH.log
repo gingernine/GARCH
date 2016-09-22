@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.7-160201-2.6 (sjis) (TeX Live 2016/W32TeX) (preloaded format=platex 2016.7.14)  22 SEP 2016 09:01
+This is e-pTeX, Version 3.14159265-p3.7-160201-2.6 (sjis) (TeX Live 2016/W32TeX) (preloaded format=platex 2016.7.14)  22 SEP 2016 14:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -402,53 +402,53 @@ File: upxsyc.fd 2000/12/14 v1.0
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.49 ^^I\item[{\Huge \epsilon_t}\ :\ ]
+l.47 ^^I\item[{\Huge \epsilon_t}\ :\ ]
                                        数式上は実数値離散時間確率過程を表す...
 ? 
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 23.90964pt on input line 49.
+(Font)              scaled to size 23.90964pt on input line 47.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 49.
+(Font)              scaled to size 16.60605pt on input line 47.
 ! Extra }, or forgotten $.
 <argument> {\Huge \epsilon _t}
                               \ :\ 
-l.49 ^^I\item[{\Huge \epsilon_t}\ :\ ]
+l.47 ^^I\item[{\Huge \epsilon_t}\ :\ ]
                                        数式上は実数値離散時間確率過程を表す...
 ? 
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.49 ^^I\item[{\Huge \epsilon_t}\ :\ ]
+l.47 ^^I\item[{\Huge \epsilon_t}\ :\ ]
                                        数式上は実数値離散時間確率過程を表す...
 ? 
 ! Missing } inserted.
 <inserted text> 
                 }
-l.49 ^^I\item[{\Huge \epsilon_t}\ :\ ]
+l.47 ^^I\item[{\Huge \epsilon_t}\ :\ ]
                                        数式上は実数値離散時間確率過程を表す...
 ? 
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.50 ^^I\item[{\Huge \psi_t}\ :\ ]
+l.48 ^^I\item[{\Huge \psi_t}\ :\ ]
                                    時点 $t$ までの情報構造．時点 $t$ までの...
 ? 
 ! Extra }, or forgotten $.
 <argument> {\Huge \psi _t}
                           \ :\ 
-l.50 ^^I\item[{\Huge \psi_t}\ :\ ]
+l.48 ^^I\item[{\Huge \psi_t}\ :\ ]
                                    時点 $t$ までの情報構造．時点 $t$ までの...
 ? 
 ! Missing $ inserted.
 <inserted text> 
                 $
-l.50 ^^I\item[{\Huge \psi_t}\ :\ ]
+l.48 ^^I\item[{\Huge \psi_t}\ :\ ]
                                    時点 $t$ までの情報構造．時点 $t$ までの...
 ? 
 ! Missing } inserted.
 <inserted text> 
                 }
-l.50 ^^I\item[{\Huge \psi_t}\ :\ ]
+l.48 ^^I\item[{\Huge \psi_t}\ :\ ]
                                    時点 $t$ までの情報構造．時点 $t$ までの...
 ? 
 [2
@@ -457,7 +457,7 @@ l.50 ^^I\item[{\Huge \psi_t}\ :\ ]
 
 ]
 ! Misplaced alignment tab character &.
-l.98 ^^I\ Cov[\epsilon_t,\ \epsilon_s] &
+l.96 ^^I\ Cov[\epsilon_t,\ \epsilon_s] &
                                         = 0
 ? 
 [4] [5
@@ -478,4 +478,4 @@ Here is how much of TeX's memory you used:
  934 hyphenation exceptions out of 8191
  27i,8n,26p,242b,298s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on GARCH.dvi (7 pages, 9940 bytes).
+Output written on GARCH.dvi (7 pages, 9768 bytes).
