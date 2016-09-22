@@ -29,9 +29,9 @@
 	\item $Tim\ Bollerslev$教授によって考案されたモデル．
 	\vspace{5mm}
 	\item 例えば，$Black-Scholes$のオプション価格方程式はサンプルデータが一定の平均と分散を持つという強い仮定に基づくが，
-		$GARCH$モデルは金融資産の分散が不均一な場合にも対応出来る．
+		$GARCH$モデルはサンプルデータの分散が不均一な場合を想定している．
 	\vspace{5mm}
-	\item モデル式の中に資産価値の変動の分散の履歴を組み入れている．
+	\item モデル式は，確率過程の履歴の情報が与えられた下での確率変数の分散を求めるものである．
 	\vspace{5mm}
 	\item $S\&P500\ index\ option$ のサンプルデータからパラメータを求めて，インデックスのサンプル外の部分を計算したところ，
 		他のモデルに比べて実際の値との差を小さくできた $Heston,\ Nandi (2000)$.
@@ -57,7 +57,7 @@ $\epsilon_t$ は，時点 $t-1$ までの履歴の情報 $\psi_{t-1}$ が与え�
 \[
 	\epsilon_t|\psi_{t-1} \sim N(0,\ h_t).
 \]
-$GARCH$ モデルの式は以下の様に表される: \\
+$GARCH(p,\ q)$ モデルの式は以下の様に表される: \\
 \qquad 時点 t でのボラティリティ $h_t$ について，
 \[
 	h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}.
@@ -119,9 +119,10 @@ $GARCH(1,\ 1)$ モデルについて，モデル式
 	h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1}.
 \]
 に従う確率過程 $\{ \epsilon_t \}_t$ の$2m$次のモーメント$E[\epsilon_t^{2m}]$が存在する為の必要十分条件は，
-\[
-	\sum_{j=0}^{m} \binom{m}{j} a_j \alpha_1^j \beta_1^{m-j} < 1, \hspace{20pt} a_0 = 1,\ a_j = \prod_{i=1}^{j} (2i-1)
-\]
+\begin{align*}
+	&\sum_{j=0}^{m} \binom{m}{j} a_j \alpha_1^j \beta_1^{m-j} < 1, \\
+	s.t.&\qquad a_0 = 1,\ a_j = \prod_{i=1}^{j} (2i-1)
+\end{align*}
 が成り立つことである．
 
 }
