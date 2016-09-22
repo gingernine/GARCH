@@ -23,8 +23,10 @@ $本稿は GARCH 理論の習得の覚書である．論文には理論部分の
 その証明を読まないとモデルが何を表しているのかわからないので自分でも読んで書いて覚えようとするのだけれども，省略されている部分を懇切丁寧に補ってもらわないと
 僕が付いて行けないので，後学のために証明にくどいほど詳解を付けておくのである．本文中のわかりづらかった部分も補完したものを載せてある．$
 
-\Section{1}{GENERALIZED\ AUTOREGRESSIVE\ CONDITIONAL\ HETEROSKEDASTICITY}
+本稿の参照論文: \\
+	\qquad $Tim\ Bollerslev (1986),\ ``GENERALIZED\quad AUTOREGRESSIVE\quad CONDITIONAL\quad HETEROSKEDASTICITY''$.
 
+\Section{1}{AppendixのAppendix}
 $GARCH$モデル:
 \begin{eqnarray*}
 	&h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}, \\
@@ -267,7 +269,7 @@ $これは k \to \infty まで考えると，情報が無い下での期待値�
 \end{breakbox}
 
 $上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n) に等しい． GARCH モデルの仮定から  \alpha_1,\beta_1 は非負であり，
-a_j は標準正規分布の偶数次のモーメントであるから正数であるから，即ち， \mu(\alpha_1,\beta_1,\ n) は n に関して非負単調増大であり， 
+a_j は標準正規分布の偶数次のモーメントであるから正数で，即ち， \mu(\alpha_1,\beta_1,\ n) は n に関して非負単調増大であり， 
 \mu(\alpha_1,\beta_1,\ m) < 1 であることが冪級数の収束の十分条件を為す．よって \mu(\alpha_1,\beta_1,\ m) < 1 であることは E[\epsilon_t^{2m}] の存在の
 十分条件となる．一方， E[\epsilon_t^{2m}] が存在すれば 2(m-1),\ 2(m-2),\ \cdots ,\ 2 次モーメントも存在することになるので，$
 \[
@@ -314,7 +316,10 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 \qed
 \end{proof}
 
+\Section{2}{本文中のわかりづらい箇所の補完説明}
+
 \begin{breakbox}
+	{\gt {\large $GARCH$モデル式の同値形}}\\
 	本稿の最初に示した$GARCH$モデルの式の同値形を表記する:
 	\begin{align*}
 		\epsilon_t &\equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d. \mbox{を仮定している下で,}\\
@@ -332,6 +337,7 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 \end{breakbox}
 
 \begin{breakbox}
+	{\gt {\large 確率過程の自己相関係数}}\\
 	$GARCH(p,\ q) 過程に 4 次モーメントの存在を仮定する．共分散を次の様に表記する．$
 	\[
 		\gamma_n\ \equiv\ \gamma_{-n}\ \equiv \Cov{\epsilon_t^2}{\epsilon_{t-n}^2}.
@@ -390,7 +396,65 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 		\rho_n = \gamma_n \gamma_0^{-1} = \sum_{i=1}^{m} \phi_i \gamma_{n - i} \gamma_0^{-1} = \sum_{i=1}^{m} \phi_i \rho_{n - i},\quad  n \geq p+1.
 	\]
 	この式が表していることは，自己相関係数 $\rho_{p},\ \rho_{p-1},\ \rho_{p-2},\ \cdots,\ \rho_{p+1-m}$ によって任意の時点 $n$ での $\rho_n$ が一意に定まるということである．\\
-	
+\end{breakbox}
+
+\begin{breakbox}
+	{\gt {\large $GARCH$モデルのパラメータの最尤推定}}\\
+	$GARCH$モデルの式をベクトルの積で表現し直す:
+	\begin{align*}
+		h_t &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
+		&= \vector{z}_t^{T} \vector{\omega}_t, \\
+		s.t.\quad &\vector{z}_t \equiv (1,\ \epsilon_{t-1}^2,\ \cdots,\epsilon_{t-q}^2,\ h_{t-1},\ \cdots,\ h_{t-p})^{T}, \\
+		&\vector{\omega} \equiv (\alpha_0,\ \alpha_1,\ \cdots,\ \alpha_q,\ \beta_1,\ \cdots,\ \beta_p)^{T}.
+	\end{align*}
+	$推定するパラメータは 1+q+p 個だけではない．ここで，時点 t における確率変数である \epsilon_t が線形回帰式の誤差項であると考えて，$
+	\[
+		\epsilon_t = y_t - \vector{x_t}^{T} \vector{b}
+	\]
+	$と置くと，推定するパラメータの個数は dim(\vector{b}) + dim(\vector{\omega}) となる．モデルの母数空間が Euclidean 空間のコンパクトな部分空間と考える．
+	そして確率過程 \{\epsilon_t\}_t の二次モーメントが存在する母数空間であるとする．この母数空間を$
+	\[
+		\Theta \equiv \{ \vector{\theta} = (\vector{b}^{T},\ \vector{\omega}^{T}) \}
+	\]
+	$とし，真のパラメータ \vector{\theta}_0 を \Theta の内部に含むものとする．最尤推定とは，与えられた観測を基に尤度関数を最大にする \hat{\vector{\theta}} \in \Theta を
+	求めるものである．T この時点の観測に対する対数尤度関数は$
+	\begin{align*}
+		L_T(\vector{\theta}) = T^{-1} \sum_{t=1}^{T} l_t(\vector{\theta}) = T^{-1} \sum_{t=1}^{T} \left( -\frac{1}{2} log h_t - \frac{1}{2}\epsilon_t^2 h_t^{-1} \right).
+	\end{align*}
+	$\vector{\omega} に関して微分すると以下の様になる:$
+	\begin{align*}
+		\vector{\omega} &= (\omega_1,\ \omega_2,\ \cdots) と表して, \\
+		\frac{\partial l_t}{\partial \omega_1} &= -\frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_1} + \frac{1}{2} \frac{\epsilon_t^2}{h_t^2} \frac{\partial h_t}{\partial \omega_1}, \\
+		&= \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_1} \left( \frac{\epsilon_t^2}{h_t} - 1 \right), \\
+		\frac{\partial^2 l_t}{\partial \omega_1^2} 
+			&= \frac{1}{2} \frac{-1}{h_t^2} \left( \frac{\partial h_t}{\partial \omega_1} \right)^2 \left( \frac{\epsilon_t^2}{h_t} - 1 \right)
+			+ \frac{1}{2} h_t^{-1} \frac{\partial^2 h_t}{\partial \omega_1^2} \left( \frac{\epsilon_t^2}{h_t} - 1 \right)
+			+ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_1} \frac{-\epsilon_t^2}{h_t^2} \frac{\partial h_t}{\partial \omega_1} \\
+		&= \frac{1}{2} \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \left( h_t^{-1} \frac{\partial^2 h_t}{\partial \omega_1^2} - \frac{1}{h_t^2} \left( \frac{\partial h_t}{\partial \omega_1} \right)^2 \right) 
+			- \frac{1}{2} h_t^{-1} \left( \frac{\partial h_t}{\partial \omega_1} \right)^2 \frac{\epsilon_t^2}{h_t^2} \\
+		&= \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \omega_1}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_1} \right] 
+		- \frac{1}{2} h_t^{-2} \left( \frac{\partial h_t}{\partial \omega_1} \right)^2 \frac{\epsilon_t^2}{h_t} \qquad と計算できるから, \\
+		\frac{\partial l_t}{\partial \vector{\omega}} &= \left( \frac{\partial l_t}{\partial \omega_1},\ \frac{\partial l_t}{\partial \omega_2},\ \cdots \right) \\
+		&= \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}} \left( \frac{\epsilon_t^2}{h_t} - 1 \right), \\
+		\frac{\partial^2 l_t}{\partial \vector{\omega} \partial \vector{\omega}^{T}} &= \left( \frac{\partial^2 l_t}{\partial \omega_1^2},\ \frac{\partial^2 l_t}{\partial \omega_2^2},\ \cdots \right) \\
+		&= \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \vector{\omega}^{T}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}} \right] 
+		- \frac{1}{2} h_t^{-2} \frac{\partial h_t}{\partial \vector{\omega}} \frac{\partial h_t}{\partial \vector{\omega}^{T}} \frac{\epsilon_t^2}{h_t}. \\	
+	\end{align*}
+	ここで， $\frac{\partial h_t}{\partial \vector{\omega}}$ は次のように示される．
+	\begin{align*}
+		\frac{\partial h_t}{\partial \omega_i} &= \frac{\partial \vector{z}_t^{T} \vector{\omega}_t}{\partial \omega_i}
+		= \begin{cases}
+			z_i &(i \leq 1+q) \\
+			z_i + \omega_i \frac{\partial z_i}{\partial \omega_i} &(i > 1+q)
+			\end{cases}
+		= \begin{cases}
+			z_i &(i \leq 1+q) \\
+			z_i + \omega_i \frac{\partial h_i}{\partial \omega_i} &(i > 1+q)
+			\end{cases}\qquad であるから，　\\
+		\frac{\partial h_t}{\partial \vector{\omega}} =& \vector{z}_t +  \sum_{i=1}^{p} \beta_i \frac{\partial h_{t-i}}{\partial \vector{\omega}}.
+	\end{align*}
+
+
 \end{breakbox}
 \begin{proof}
 \end{proof}
