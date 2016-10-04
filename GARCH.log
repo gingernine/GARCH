@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.7-160201-2.6 (sjis) (TeX Live 2016/W32TeX) (preloaded format=platex 2016.7.14)  22 SEP 2016 15:31
+This is e-pTeX, Version 3.14159265-p3.7-160201-2.6 (sjis) (TeX Live 2016/W32TeX) (preloaded format=platex 2016.7.14)  22 SEP 2016 20:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -462,7 +462,15 @@ l.96 ^^I\ Cov[\epsilon_t,\ \epsilon_s] &
 ? 
 [4] [5
 
-] [6
+]
+Overfull \hbox (362.21855pt too wide) in paragraph at lines 136--138
+\OT1/pxr/m/n/20.74 [1]\OML/pxmi/m/it/20.74 : Tim Bollerslev;  \OT1/pxr/m/n/20.7
+4 1986\OML/pxmi/m/it/20.74 ;  Generalized Autoregressive Conditional Heterosche
+dasticity;  Journal of Econometrics \OT1/pxr/m/n/20.74 31 (1986) 307 \OMS/pxss/
+m/n/20.74 ^^@ 
+ []
+
+[6
 
 ] (./GARCH.aux)
 
@@ -478,4 +486,4 @@ Here is how much of TeX's memory you used:
  934 hyphenation exceptions out of 8191
  27i,9n,26p,242b,298s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on GARCH.dvi (7 pages, 9892 bytes).
+Output written on GARCH.dvi (7 pages, 10180 bytes).

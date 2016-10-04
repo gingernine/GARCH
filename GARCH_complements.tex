@@ -12,22 +12,31 @@
 \def\qed{\hfill $\Box$}
 \def\vector#1{\mbox{\boldmath $#1$}}
 \def\norm#1{\mbox{$\left\| #1 \right\|$}}
-\def\det#1{\mbox{$det \left( #1 \right)$}}
-\def\diag#1{\mbox{$diag \left( #1 \right)$}}
-\def\Exp#1{\mbox{$E \left[ #1 \right]$}}
-\def\Var#1{\mbox{$V \left[ #1 \right]$}}
-\def\Cov#1#2{\mbox{$Cov \left[ #1,\ #2 \right]$}}
-\begin{document}
+\def\det#1{\mbox{${\rm det} \left( #1 \right)$}}
+\def\diag#1{\mbox{${\rm diag} \left( #1 \right)$}}
+\def\Exp#1{\mbox{${\rm E} \left[ #1 \right]$}}
+\def\Var#1{\mbox{${\rm V} \left[ #1 \right]$}}
+\def\Cov#1#2{\mbox{${\rm Cov} \left[ #1,\ #2 \right]$}}
+\def\exp#1{\mbox{${\rm exp} \left( #1 \right)$}}
 
-$本稿は GARCH 理論の習得の覚書である．論文には理論部分の証明が Appendix として載せられている．
-その証明を読まないとモデルが何を表しているのかわからないので自分でも読んで書いて覚えようとするのだけれども，省略されている部分を懇切丁寧に補ってもらわないと
-僕が付いて行けないので，後学のために証明にくどいほど詳解を付けておくのである．本文中のわかりづらかった部分も補完したものを載せてある．$
+\title{{\rm GARCH} 理論の習得の覚書}
+\author{百合川　学籍番号：201311324}
+\date{2016/09/30}
+
+
+\begin{document}
+\maketitle
+$本稿は {\rm GARCH} 理論の習得の覚書である．論文には理論部分の証明が Appendix として載せられている．
+その証明を読まないとモデルが何を表しているのかわからないので，省略されている部分を補って，後学のために詳解を付けておくのである．
+本文中のわかりづらかった部分も補完したものを載せてある．$
 
 本稿の参照論文: \\
-	\qquad $Tim\ Bollerslev (1986),\ ``GENERALIZED\quad AUTOREGRESSIVE\quad CONDITIONAL\quad HETEROSKEDASTICITY''$.
+	\qquad $Tim\ Bollerslev (1986),\\
+	\qquad ''Generalized\quad Autoregressive\quad Conditional\quad Heteroskedasticity'',\\
+	\qquad Journal\ of\ Econometrics\ 31\ (1986)\ 307-327.\ North-Holland.$
 
 \Section{1}{AppendixのAppendix}
-$GARCH$モデル:
+${\rm GARCH}$モデル:
 \begin{eqnarray*}
 	&h_t = \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i}, \\
 	&\alpha_0 \geq 0, \hspace{20pt} \alpha_i > 0, \hspace{20pt} \beta_i \geq 0.
@@ -35,9 +44,9 @@ $GARCH$モデル:
 
 \begin{boxnote}
 	\begin{prop}
-	$GARCH(p,\ q)$ 過程について，広義定常である為の必要十分条件は$\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$である:
+	${\rm GARCH}(p,\ q)$ 過程について，広義定常である為の必要十分条件は$\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$である:
 	\[
-		E[\epsilon_t]=0,\ V[\epsilon_t]=\alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1},\ Cov[\epsilon_t,\ \epsilon_s]=0
+		\Exp{\epsilon_t}=0,\ \Var{\epsilon_t}=\alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1},\ \Cov{\epsilon_t}{\epsilon_s}=0
 		\hspace{20pt} \Leftrightarrow \hspace{20pt}
 		\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1.
 	\]
@@ -91,38 +100,38 @@ $\epsilon_t$は次の様に表されると仮定する:
 \end{align*}
 $\eta_t$は独立に分布$N(0,\ 1)$に従うという仮定の下，$M(t,\ k)$のモーメントは時点$t$に依存しない:
 \[
-	E[M(t,\ k)^r] = E[M(s,\ k)^r], \hspace{20pt} t \neq s,\ r \in \mathbb{N}.
+	\Exp{M(t,\ k)^r} = \Exp{M(s,\ k)^r}, \hspace{20pt} t \neq s,\ r \in \mathbb{N}.
 \]
 従って$1$次モーメントの計算は次の結果を得る．$k \geq 1$として，
 \begin{align*}
-	E[M(t,\ k)] &= E\left[ M(t-i,\ k-1) \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + M(t-i,\ k-1) \sum_{i=1}^{p} \beta_i \right] \\
-	&= \left( \sum_{i=1}^{q} \alpha_i E[\eta_{t-i}^2] + \sum_{i=1}^{p} \beta_i \right) E[M(t,\ k-1)] \\
-	&= \left( \sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i \right)^2 E[M(t,\ k-2)] \\
+	\Exp{M(t,\ k)} &= \Exp{ M(t-i,\ k-1) \sum_{i=1}^{q} \alpha_i \eta_{t-i}^2 + M(t-i,\ k-1) \sum_{i=1}^{p} \beta_i } \\
+	&= \left( \sum_{i=1}^{q} \alpha_i \Exp{\eta_{t-i}^2} + \sum_{i=1}^{p} \beta_i \right) \Exp{M(t,\ k-1)} \\
+	&= \left( \sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i \right)^2 \Exp{M(t,\ k-2)} \\
 	&\vdots \\
-	&= \left( \sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i \right)^k E[M(t,\ 0)] \\
+	&= \left( \sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i \right)^k \Exp{M(t,\ 0)} \\
 	&= \left( \sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i \right)^k.
 \end{align*}
 最終的に$\epsilon_t^2$の$1$次モーメントは，
 \begin{align*}
-	E[\epsilon_t^2] = E\left[ E[\epsilon_t^2\ |\ \psi_{t-1}] \right] = E[h_t]
-	= E\left[ \alpha_0 \sum_{k=0}^{\infty} M(t,\ k) \right]
-	= \alpha_0 E\left[ \sum_{k=0}^{\infty} M(t,\ k) \right].
+	\Exp{\epsilon_t^2} = \Exp{\Exp{\epsilon_t^2\ |\ \psi_{t-1}}} = \Exp{h_t}
+	= \Exp{ \alpha_0 \sum_{k=0}^{\infty} M(t,\ k) }
+	= \alpha_0 \Exp{ \sum_{k=0}^{\infty} M(t,\ k) }.
 \end{align*}
-ここで定理の広義定常性の仮定から$E[h_t] < \infty$でなければならず，従って$\sum_{k=0}^{\infty} M(t,\ k)\ (\geq 0)$は可積分である必要がある．
+ここで定理の広義定常性の仮定から$\Exp{h_t} < \infty$でなければならず，従って$\sum_{k=0}^{\infty} M(t,\ k)\ (\geq 0)$は可積分である必要がある．
 正項級数が可積分なら$Lebesgue$の収束定理により項別積分に持ち込むことができ，よって$\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$である．逆に，
 $\sum_{i=1}^{q} \alpha_i + \sum_{i=1}^{p} \beta_i < 1$が仮定されていれば無限級数が可積分である為，
 \[
-	\alpha_0 E\left[ \sum_{k=0}^{\infty} M(t,\ k) \right] = \alpha_0 \sum_{k=0}^{\infty} E\left[ M(t,\ k) \right] = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1} < \infty
+	\alpha_0 \Exp{ \sum_{k=0}^{\infty} M(t,\ k) } = \alpha_0 \sum_{k=0}^{\infty} \Exp{ M(t,\ k) } = \alpha_0 \left( 1 - \sum_{i=1}^{q} \alpha_i - \sum_{i=1}^{p} \beta_i \right)^{-1} < \infty
 \]
 が正当化される．そしてこれは時点に依存しない分散である．また，時点 $t-1$ までの情報が与えられた下で $h_t$ は決定されることと，
 $\eta_t$が時点に関して独立に標準正規分布に従うことに注意すれば，
 \begin{align*}
-	E[\epsilon_t\ |\ \psi_{t-1}] &= E[\eta_t]h_t^\frac{1}{2} = 0\ \\
-	&\Rightarrow\ E[\epsilon_t] = 0, \\
-	Cov[\epsilon_t,\ \epsilon_s\ |\ \psi_{t-1}] &= Cov[\eta_t h_t^\frac{1}{2},\ \eta_s h_s^\frac{1}{2}\ |\ \psi_{t-1}] \\
-	&= E[\eta_t h_t^\frac{1}{2}\ \eta_s h_s^\frac{1}{2}\ |\ \psi_{t-1}] \\
+	\Exp{\epsilon_t\ |\ \psi_{t-1}} &= \Exp{\eta_t}h_t^\frac{1}{2} = 0\ \\
+	&\Rightarrow\ \Exp{\epsilon_t} = 0, \\
+	\Cov{\epsilon_t}{\epsilon_s\ |\ \psi_{t-1}} &= \Cov{\eta_t h_t^\frac{1}{2}}{\eta_s h_s^\frac{1}{2}\ |\ \psi_{t-1}} \\
+	&= \Exp{\eta_t h_t^\frac{1}{2}\ \eta_s h_s^\frac{1}{2}\ |\ \psi_{t-1}} \\
 	&= 0 \\
-	&\Rightarrow\ Cov[\epsilon_t,\ \epsilon_s] = 0.
+	&\Rightarrow\ \Cov{\epsilon_t}{\epsilon_s} = 0.
 \end{align*}
 であることも従うので，定理が示されるのである．
 \qed
@@ -130,13 +139,13 @@ $\eta_t$が時点に関して独立に標準正規分布に従うことに注意
 
 \begin{boxnote}
 	\begin{prop}
-	$GARCH(1,\ 1)について，h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} 過程の 2m 次のモーメント E[\epsilon_t^{2m}] が存在する為の必要十分条件は$
+	${\rm GARCH}(1,\ 1)について，h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} 過程の 2m 次のモーメント \Exp{\epsilon_t^{2m}} が存在する為の必要十分条件は$
 	\begin{align*}
 		\mu(\alpha_1,\ \beta_1,\ m) \equiv \sum_{j=0}^{m} \binom{m}{j} a_j \alpha_1^j \beta_1^{m-j} < 1, \hspace{20pt} a_0 = 1,\ a_j = \prod_{i=1}^{j} (2i-1)
 	\end{align*}
 	$であり，このとき 2m 次のモーメントは次の様に表せる:$
 	\[
-		E[\epsilon_t^{2m}] = a_m \left[ \sum_{n=0}^{m-1} a_n^{-1} E[\epsilon_t^{2n}] \alpha_0^{m-n} \binom{m}{m-n} \mu(\alpha_1, \beta_1, n) \right]
+		\Exp{\epsilon_t^{2m}} = a_m \left[ \sum_{n=0}^{m-1} a_n^{-1} \Exp{\epsilon_t^{2n}} \alpha_0^{m-n} \binom{m}{m-n} \mu(\alpha_1, \beta_1, n) \right]
 		\times \left[ 1-\mu(\alpha_1, \beta_1, m) \right]^{-1}.
 	\]
 	\end{prop}
@@ -144,7 +153,7 @@ $\eta_t$が時点に関して独立に標準正規分布に従うことに注意
 \begin{proof}
 $標準正規分布に従う確率変数 X の 2m\ (m \in \mathbb{N}) 次のモーメントの計算を確認しておく．$
 \begin{align*}
-	E[x^{2m}] &= \int_{-\infty}^{\infty} x^{2m} \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} dx \\
+	\Exp{x^{2m}} &= \int_{-\infty}^{\infty} x^{2m} \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}} dx \\
 	&= 2 \frac{1}{\sqrt{2 \pi}} \int_{0}^{\infty} (2x)^{m} e^{-x} \frac{1}{\sqrt{2x}} dx \\
 	&= \frac{1}{\sqrt{2 \pi}} 2^{m+\frac{1}{2}} \Gamma(m+\frac{1}{2}) \\
 	&= \frac{1}{\sqrt{2 \pi}} 2^{m+\frac{1}{2}} \frac{(2m-1)(2m-3) \cdots 1}{2^m} \sqrt{\pi} \\
@@ -152,25 +161,25 @@ $標準正規分布に従う確率変数 X の 2m\ (m \in \mathbb{N}) 次のモ�
 \end{align*}
 $\eta_t の正規性と，情報構造\psi_{t-1} が与えられた下で h_t が定数となることに注意すると以下の式が成り立つ．$
 \begin{align*}
-	a_m &\equiv E[\eta_t^{2m}] = \prod_{i=1}^{m} (2i-1), \\
-	E[\epsilon_t^{2m}] &= E \left[ E[\epsilon_t^{2m}\ |\ \psi_{t-1}] \right] = E \left[ E[\eta_t^{2m} h_t^m\ |\ \psi_{t-1}] \right] 
-	=  E[h_t^m] E[\eta_t^{2m}] = a_m E[h_t^m].
+	a_m &\equiv \Exp{\eta_t^{2m}} = \prod_{i=1}^{m} (2i-1), \\
+	\Exp{\epsilon_t^{2m}} &= E{ \Exp{\epsilon_t^{2m}\ |\ \psi_{t-1}} } = \Exp{ \Exp{\eta_t^{2m} h_t^m\ |\ \psi_{t-1}} } 
+	=  \Exp{h_t^m} \Exp{\eta_t^{2m}} = a_m \Exp{h_t^m}.
 \end{align*}
-$GARCH(1,\ 1) の下では h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} であるから，$
+${\rm GARCH}(1,\ 1) の下では h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} であるから，$
 \begin{align*}
 	h_t^m &= \left( \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} \right)^m \\
 	&= \sum_{n=0}{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}{n} \alpha_1^j \beta_1^{n-j} \epsilon_{t-1}^2j h_{t-1}^{n-j}.
 \end{align*}
 $従って，時点 t-2 までの情報を与えると，$
 \begin{align*}
-	E[h_t^m\ |\ \psi_{t-2}] &= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} \alpha_1^j \beta_1^{n-j} E[\epsilon_{t-1}^{2j} h_{t-1}^{n-j}\ |\ \psi_{t-2}] \\
-	&= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} \alpha_1^j \beta_1^{n-j} h_{t-1}^{n-j} E[\epsilon_{t-1}^{2j}\ |\ \psi_{t-2}] \\
+	\Exp{h_t^m\ |\ \psi_{t-2}} &= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} \alpha_1^j \beta_1^{n-j} \Exp{\epsilon_{t-1}^{2j} h_{t-1}^{n-j}\ |\ \psi_{t-2}} \\
+	&= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} \alpha_1^j \beta_1^{n-j} h_{t-1}^{n-j} \Exp{\epsilon_{t-1}^{2j}\ |\ \psi_{t-2}} \\
 	&= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} \alpha_1^j \beta_1^{n-j} h_{t-1}^{n-j} h_{t-1}^j a_j \\
 	&= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} h_{t-1}^n.
 \end{align*}
 $ここで m 次元ベクトル \vector{w}_t \equiv (h_t^m, h_t^{m-1}, \cdots, h_t)^{T} に対して，期待値を取ると，$
 \begin{align*}
-	E[\vector{w}_t\ |\ \psi_{t-2}] &= (\ E[h_t^m\ |\ \psi_{t-2}],\ E[h_t^{m-1}\ |\ \psi_{t-2}],\ E[h_t^{m-2}\ |\ \psi_{t-2}],\ \cdots \ ,\ E[h_t\ |\ \psi_{t-2}]\ )^{T} \\
+	\Exp{\vector{w}_t\ |\ \psi_{t-2}} &= (\ \Exp{h_t^m\ |\ \psi_{t-2}},\ \Exp{h_t^{m-1}\ |\ \psi_{t-2}},\ \Exp{h_t^{m-2}\ |\ \psi_{t-2}},\ \cdots \ ,\ \Exp{h_t\ |\ \psi_{t-2}}\ )^{T} \\
 	&= \left(
 		\begin{array}{c}
 			\sum\limits_{n=0}^{m} h_{t-1}^n \binom{m}{n} \alpha_0^{m-n} \sum\limits_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} \\
@@ -218,21 +227,21 @@ $ここで m \times m 上三角行列 \vector{C} の対角成分に現れる級�
 \]
 $また，与えられる情報構造の鮮度を落としていくと，すなわち \psi_{*} の添え字の時点を後退させると以下の式が成り立つ:$
 \begin{align*}
-	E[\vector{w}_t\ |\ \psi_{t-3}] &= E\left[ E\left[ \vector{w}_t\ |\ \psi_{t-2} \right]\ |\ \psi_{t-3} \right] \\
-		&= E\left[ \vector{d} + \vector{C} \vector{w}_{t-1}\ |\ \psi_{t-3} \right] \\
-		&= \vector{d} + \vector{C} E\left[ \vector{w}_{t-1}\ |\ \psi_{t-3} \right] \\
+	\Exp{\vector{w}_t\ |\ \psi_{t-3}} &= \Exp{ \Exp{ \vector{w}_t\ |\ \psi_{t-2} }\ |\ \psi_{t-3} } \\
+		&= \Exp{ \vector{d} + \vector{C} \vector{w}_{t-1}\ |\ \psi_{t-3} } \\
+		&= \vector{d} + \vector{C} \Exp{ \vector{w}_{t-1}\ |\ \psi_{t-3} } \\
 		&= \vector{d} + \vector{C} (\vector{d} + \vector{C} \vector{w}_{t-2}) \\
 		&= (\vector{I} + \vector{C})\vector{d} + \vector{C}^2 \vector{w}_{t-2}, \\
-	E[\vector{w}_t\ |\ \psi_{t-4}] &= E\left[ E\left[ \vector{w}_t\ |\ \psi_{t-3} \right]\ |\ \psi_{t-4} \right] \\
-		&= E\left[ (\vector{I} + \vector{C})\vector{d} + \vector{C}^2 \vector{w}_{t-2}\ |\ \psi_{t-4} \right] \\
-		&= (\vector{I} + \vector{C})\vector{d} + \vector{C}^2 E\left[ \vector{w}_{t-2}\ |\ \psi_{t-4} \right] \\
+	\Exp{\vector{w}_t\ |\ \psi_{t-4}} &= \Exp{ \Exp{ \vector{w}_t\ |\ \psi_{t-3} } |\ \psi_{t-4} } \\
+		&= \Exp{ (\vector{I} + \vector{C})\vector{d} + \vector{C}^2 \vector{w}_{t-2}\ |\ \psi_{t-4} } \\
+		&= (\vector{I} + \vector{C})\vector{d} + \vector{C}^2 \Exp{ \vector{w}_{t-2}\ |\ \psi_{t-4} } \\
 		&= (\vector{I} + \vector{C} + \vector{C}^2)\vector{d} + \vector{C}^3 \vector{w}_{t-3}, \\
 	\vdots \\
-	E[\vector{w}_t\ |\ \psi_{t-k-1}] &= (\vector{I} + \vector{C} + \vector{C}^2 + \cdots + \vector{C}^{k-1})\vector{d} + \vector{C}^k \vector{w}_{t-k}, \\
+	\Exp{\vector{w}_t\ |\ \psi_{t-k-1}} &= (\vector{I} + \vector{C} + \vector{C}^2 + \cdots + \vector{C}^{k-1})\vector{d} + \vector{C}^k \vector{w}_{t-k}, \\
 	\vdots 
 \end{align*}
-$これは k \to \infty まで考えると，情報が無い下での期待値，即ち E[\vector{w}_t] を表すことになり， E[h_t^m] が E[\vector{w}_t]　の第一成分であることから，
-行列の冪級数の収束が求める E[\epsilon_t^{2m}] の存在の必要十分条件である:\\
+$これは k \to \infty まで考えると，情報が無い下での期待値，即ち \Exp{\vector{w}_t} を表すことになり， \Exp{h_t^m} が \Exp{\vector{w}_t}　の第一成分であることから，
+行列の冪級数の収束が求める \Exp{\epsilon_t^{2m}} の存在の必要十分条件である:\\
 ところで冪級数の収束の必要十分条件は行列 \vector{C} の全ての固有値が 1 より小さいことである．これを証明してみよう．ただし，\vector{C} のべき乗 \vector{C}^k の対角成分はひたすら
 対角成分の累乗になり 0 に収束する為， \vector{C}^k が零行列に収束していくということを注意しておく．$
 
@@ -260,7 +269,7 @@ $これは k \to \infty まで考えると，情報が無い下での期待値�
 	即ち或る有限な成分から構成される行列が存在し，冪級数はそれに収束する．対偶を考えれば行列の冪級数の収束の必要十分条件が $\norm{\vector{C}} < 1$ であることがわかる．
 	ところで，$\norm{\vector{C}}$　の値は　$\vector{C}\vector{C}^{T}$　の最大固有値に等しいのであった．
 	$\vector{C}$ が上三角行列であることから $\vector{C}\vector{C}^{T}$ は実対称行列になる．$\vector{C}$ の成分を構成しているのは非負を仮定してある
-	$GARCH(1,\ 1)$ の係数と標準正規分布の偶数次モーメントであることから，その加算乗算で構成される $\vector{C}\vector{C}^{T}$ の成分は全て非負であり，
+	${\rm GARCH}(1,\ 1)$ の係数と標準正規分布の偶数次モーメントであることから，その加算乗算で構成される $\vector{C}\vector{C}^{T}$ の成分は全て非負であり，
 	$\vector{C}\vector{C}^{T}$ の行列式は$\vector{C}$ の対角成分の平方和よりも大きくなる:
 	\[
 		%\norm{\vector{C}} = \det{\vector{C}\vector{C}^{T}} \geq \sum_{c \in \diag{\vector{C}}} c^2,
@@ -268,59 +277,59 @@ $これは k \to \infty まで考えると，情報が無い下での期待値�
 	
 \end{breakbox}
 
-$上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n) に等しい． GARCH モデルの仮定から  \alpha_1,\beta_1 は非負であり，
+$上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n) に等しい． {\rm GARCH} モデルの仮定から  \alpha_1,\beta_1 は非負であり，
 a_j は標準正規分布の偶数次のモーメントであるから正数で，即ち， \mu(\alpha_1,\beta_1,\ n) は n に関して非負単調増大であり， 
-\mu(\alpha_1,\beta_1,\ m) < 1 であることが冪級数の収束の十分条件を為す．よって \mu(\alpha_1,\beta_1,\ m) < 1 であることは E[\epsilon_t^{2m}] の存在の
-十分条件となる．一方， E[\epsilon_t^{2m}] が存在すれば 2(m-1),\ 2(m-2),\ \cdots ,\ 2 次モーメントも存在することになるので，$
+\mu(\alpha_1,\beta_1,\ m) < 1 であることが冪級数の収束の十分条件を為す．よって \mu(\alpha_1,\beta_1,\ m) < 1 であることは \Exp{\epsilon_t^{2m}} の存在の
+十分条件となる．一方， \Exp{\epsilon_t^{2m}} が存在すれば 2(m-1),\ 2(m-2),\ \cdots ,\ 2 次モーメントも存在することになるので，$
 \[
-	E[\vector{w}_t] = \lim_{k \to \infty} E[\vector{w}_t\ |\ \psi_{t-k-1}] < \infty,
+	\Exp{\vector{w}_t} = \lim_{k \to \infty} \Exp{\vector{w}_t\ |\ \psi_{t-k-1}} < \infty,
 \]
 $即ち冪級数は収束し，\mu(\alpha_1,\beta_1,\ m) < 1 が従う．$
 
 最後に
 \[
-	E[\epsilon_t^{2m}] = a_m \left[ \sum_{n=0}^{m-1} a_n^{-1} E[\epsilon_t^{2n}] \alpha_0^{m-n} \binom{m}{m-n} \mu(\alpha_1, \beta_1, n) \right]
+	\Exp{\epsilon_t^{2m}} = a_m \left[ \sum_{n=0}^{m-1} a_n^{-1} \Exp{\epsilon_t^{2n}} \alpha_0^{m-n} \binom{m}{m-n} \mu(\alpha_1, \beta_1, n) \right]
 		\times \left[ 1-\mu(\alpha_1, \beta_1, m) \right]^{-1}
 \]
 を示す．
 \begin{align*}
-	E[\epsilon_t^{2m}] &= a_m E[h_t^m], \\
-	E[h_t^m\ |\ \psi_{t-2}] &= \sum_{n=0}^{m}　h_{t-1}^n \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j}
+	\Exp{\epsilon_t^{2m}} &= a_m \Exp{h_t^m}, \\
+	\Exp{h_t^m\ |\ \psi_{t-2}} &= \sum_{n=0}^{m}　h_{t-1}^n \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j}
 \end{align*}
 が成り立っていることにより，
 \begin{align*}
-	E[\epsilon_t^{2m}] &= a_m E[h_t^m] \\
-	&= a_m E\left[ E[h_t^m\ |\ \psi_{t-2}] \right] \\
-	&= a_m E\left[ \sum_{n=0}^{m}　h_{t-1}^n \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} \right] \\
-	&= a_m \left[ \sum_{n=0}^{m}　E[h_{t-1}^n] \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] \\
-	&= a_m \left[ \sum_{n=0}^{m-1}　a_n^{-1} E[\epsilon_{t-1}^{2n}] \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] + a_m a_m^{-1}  E[\epsilon_{t-1}^{2m}] \mu(\alpha_1,\beta_1,\ m).
+	\Exp{\epsilon_t^{2m}} &= a_m \Exp{h_t^m} \\
+	&= a_m \Exp{ \Exp{h_t^m\ |\ \psi_{t-2}} } \\
+	&= a_m \Exp{ \sum_{n=0}^{m}　h_{t-1}^n \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} } \\
+	&= a_m \left[ \sum_{n=0}^{m}　\Exp{h_{t-1}^n} \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] \\
+	&= a_m \left[ \sum_{n=0}^{m-1}　a_n^{-1} \Exp{\epsilon_{t-1}^{2n}} \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] + a_m a_m^{-1}  \Exp{\epsilon_{t-1}^{2m}} \mu(\alpha_1,\beta_1,\ m).
 \end{align*}
-$E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなければならない，というのも，先述の行列の冪級数の収束の箇所で，$
+$\Exp{\epsilon_t^{2m}} が時点に依らない値を持つことに注意しなければならない，というのも，先述の行列の冪級数の収束の箇所で，$
 \[
 	\left(
 	\begin{array}{c}
-		a_m^{-1} E[\epsilon_t^{2m}] \\
-		a_{m-1}^{-1} E[\epsilon_t^{2(m-1)}] \\
-		a_{m-2}^{-1} E[\epsilon_t^{2(m-2)}] \\
+		a_m^{-1} \Exp{\epsilon_t^{2m}} \\
+		a_{m-1}^{-1} \Exp{\epsilon_t^{2(m-1)}} \\
+		a_{m-2}^{-1} \Exp{\epsilon_t^{2(m-2)}} \\
 		\vdots \\
-		a_1^{-1} E[\epsilon_t^2]
+		a_1^{-1} \Exp{\epsilon_t^2}
 	\end{array}
 	\right)
-	= E[\vector{w}_t] = \lim_{k \to \infty} E[\vector{w}_t\ |\ \psi_{t-k-1}] = (\vector{I} - \vector{C})^{-1} \vector{d}
+	= \Exp{\vector{w}_t} = \lim_{k \to \infty} \Exp{\vector{w}_t\ |\ \psi_{t-k-1}} = (\vector{I} - \vector{C})^{-1} \vector{d}
 \]
 が成り立っているのである．従って，最右辺第二項を左辺に移せば，求める式
 \[
-	E[\epsilon_t^{2m}] = a_m \left[ \sum_{n=0}^{m-1}　a_n^{-1} E[\epsilon_t^{2n}] \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] [1 - \mu(\alpha_1,\beta_1,\ m)]^{-1}
+	\Exp{\epsilon_t^{2m}} = a_m \left[ \sum_{n=0}^{m-1}　a_n^{-1} \Exp{\epsilon_t^{2n}} \binom{m}{n} \alpha_0^{m-n} \mu(\alpha_1,\beta_1,\ n) \right] [1 - \mu(\alpha_1,\beta_1,\ m)]^{-1}
 \]
 が導かれる．
 \qed
 \end{proof}
 
-\Section{2}{本文中のわかりづらい箇所の補完説明}
+\Section{2}{本文中の補完説明}
 
 \begin{breakbox}
-	{\gt {\large $GARCH$モデル式の同値形}}\\
-	本稿の最初に示した$GARCH$モデルの式の同値形を表記する:
+	{\gt {\large ${\rm GARCH}$モデル式の同値形 原文第2章}}\\
+	本稿の最初に示した${\rm GARCH}$モデルの式の同値形を表記する:
 	\begin{align*}
 		\epsilon_t &\equiv \eta_t h_t^{\frac{1}{2}}, \hspace{20pt} \eta_t \sim N(0,\ 1)\ i.i.d. \mbox{を仮定している下で,}\\
 		h_t &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
@@ -337,8 +346,8 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 \end{breakbox}
 
 \begin{breakbox}
-	{\gt {\large 確率過程の自己相関係数}}\\
-	$GARCH(p,\ q) 過程に 4 次モーメントの存在を仮定する．共分散を次の様に表記する．$
+	{\gt {\large 確率過程の自己相関係数 原文第4章}}\\
+	${\rm GARCH}(p,\ q) 過程に 4 次モーメントの存在を仮定する．共分散を次の様に表記する．$
 	\[
 		\gamma_n\ \equiv\ \gamma_{-n}\ \equiv \Cov{\epsilon_t^2}{\epsilon_{t-n}^2}.
 	\]
@@ -399,8 +408,8 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 \end{breakbox}
 
 \begin{breakbox}
-	{\gt {\large $GARCH$モデルのパラメータの最尤推定}}\\
-	$GARCH$モデルの式をベクトルの積で表現し直す:
+	{\gt {\large GARCH モデルのパラメータの最尤推定 原文第5章}}\\
+	GARCHモデルの式をベクトルの積で表現し直す:
 	\begin{align*}
 		h_t &= \alpha_0 + \sum_{i=1}^{q} \alpha_i \epsilon_{t-i}^2 + \sum_{i=1}^{p} \beta_i h_{t-i} \\
 		&= \vector{z}_t^{T} \vector{\omega}_t, \\
@@ -423,22 +432,31 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 	\end{align*}
 	$\vector{\omega} に関して微分すると以下の様になる:$
 	\begin{align*}
-		\vector{\omega} &= (\omega_1,\ \omega_2,\ \cdots) と表して, \\
-		\frac{\partial l_t}{\partial \omega_1} &= -\frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_1} + \frac{1}{2} \frac{\epsilon_t^2}{h_t^2} \frac{\partial h_t}{\partial \omega_1}, \\
-		&= \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_1} \left( \frac{\epsilon_t^2}{h_t} - 1 \right), \\
-		\frac{\partial^2 l_t}{\partial \omega_1^2} 
-			&= \frac{1}{2} \frac{-1}{h_t^2} \left( \frac{\partial h_t}{\partial \omega_1} \right)^2 \left( \frac{\epsilon_t^2}{h_t} - 1 \right)
-			+ \frac{1}{2} h_t^{-1} \frac{\partial^2 h_t}{\partial \omega_1^2} \left( \frac{\epsilon_t^2}{h_t} - 1 \right)
-			+ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_1} \frac{-\epsilon_t^2}{h_t^2} \frac{\partial h_t}{\partial \omega_1} \\
-		&= \frac{1}{2} \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \left( h_t^{-1} \frac{\partial^2 h_t}{\partial \omega_1^2} - \frac{1}{h_t^2} \left( \frac{\partial h_t}{\partial \omega_1} \right)^2 \right) 
-			- \frac{1}{2} h_t^{-1} \left( \frac{\partial h_t}{\partial \omega_1} \right)^2 \frac{\epsilon_t^2}{h_t^2} \\
-		&= \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \omega_1}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_1} \right] 
-		- \frac{1}{2} h_t^{-2} \left( \frac{\partial h_t}{\partial \omega_1} \right)^2 \frac{\epsilon_t^2}{h_t} \qquad と計算できるから, \\
-		\frac{\partial l_t}{\partial \vector{\omega}} &= \left( \frac{\partial l_t}{\partial \omega_1},\ \frac{\partial l_t}{\partial \omega_2},\ \cdots \right) \\
-		&= \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}} \left( \frac{\epsilon_t^2}{h_t} - 1 \right), \\
-		\frac{\partial^2 l_t}{\partial \vector{\omega} \partial \vector{\omega}^{T}} &= \left( \frac{\partial^2 l_t}{\partial \omega_1^2},\ \frac{\partial^2 l_t}{\partial \omega_2^2},\ \cdots \right) \\
-		&= \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \vector{\omega}^{T}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}} \right] 
-		- \frac{1}{2} h_t^{-2} \frac{\partial h_t}{\partial \vector{\omega}} \frac{\partial h_t}{\partial \vector{\omega}^{T}} \frac{\epsilon_t^2}{h_t}. \\	
+		\vector{\omega} &= (\omega_1,\ \omega_2,\ \cdots)^{T} と表して, \\
+		\frac{\partial l_t(\vector{\theta})}{\partial \omega_i} &= -\frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_i} + \frac{1}{2} \frac{\epsilon_t^2}{h_t^2} \frac{\partial h_t}{\partial \omega_i}, \\
+			&= \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right), \\
+		\frac{\partial^2 l_t(\vector{\theta})}{\partial \omega_j \partial \omega_i} 
+			&= \frac{1}{2} \frac{-1}{h_t^2} \frac{\partial h_t}{\partial \omega_j}\frac{\partial h_t}{\partial \omega_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right)
+			+ \frac{1}{2} h_t^{-1} \frac{\partial^2 h_t}{\partial \omega_j \partial \omega_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right)
+			+ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_i} \frac{-\epsilon_t^2}{h_t^2} \frac{\partial h_t}{\partial \omega_j} \\
+			&= \frac{1}{2} \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \left( h_t^{-1} \frac{\partial^2 h_t}{\partial \omega_j \partial \omega_i} - \frac{1}{h_t^2} \frac{\partial h_t}{\partial \omega_j}\frac{\partial h_t}{\partial \omega_i} \right) 
+				- \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_j}\frac{\partial h_t}{\partial \omega_i} \frac{\epsilon_t^2}{h_t^2} \\
+			&= \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \omega_j}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_i} \right] 
+			- \frac{1}{2} h_t^{-2} \frac{\partial h_t}{\partial \omega_j}\frac{\partial h_t}{\partial \omega_i} \frac{\epsilon_t^2}{h_t} \qquad と計算できるから, \\
+		\frac{\partial l_t(\vector{\theta})}{\partial \vector{\omega}} 
+			&= \left( \frac{\partial l_t}{\partial \omega_1},\ \frac{\partial l_t}{\partial \omega_2},\ \cdots \right)^{T} \\
+			&= \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}} \left( \frac{\epsilon_t^2}{h_t} - 1 \right), \\
+		\frac{\partial^2 l_t(\vector{\theta})}{\partial \vector{\omega} \partial \vector{\omega}^{T}} 
+			&= \left( 
+				\begin{array}{cccc}
+					\frac{\partial^2 l_t}{\partial \omega_1^2} & \frac{\partial^2 l_t}{\partial \omega_1 \partial \omega_2} & \frac{\partial^2 l_t}{\partial \omega_1 \partial \omega_3} & \cdots \\
+					\frac{\partial^2 l_t}{\partial \omega_2 \partial \omega_1} & \frac{\partial^2 l_t}{\partial \omega_2^2} & \frac{\partial^2 l_t}{\partial \omega_2 \partial \omega_3} & \cdots \\
+					\frac{\partial^2 l_t}{\partial \omega_3 \partial \omega_1} & \frac{\partial^2 l_t}{\partial \omega_3 \partial \omega_2} & \frac{\partial^2 l_t}{\partial \omega_3^2} & \cdots \\
+					\vdots & \vdots & \vdots & \ddots
+				\end{array}
+				\right) \\
+			&= \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \vector{\omega}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}^{T}} \right] 
+			- \frac{1}{2} h_t^{-2} \frac{\partial h_t}{\partial \vector{\omega}} \frac{\partial h_t}{\partial \vector{\omega}^{T}} \frac{\epsilon_t^2}{h_t}. \\	
 	\end{align*}
 	ここで， $\frac{\partial h_t}{\partial \vector{\omega}}$ は次のように示される．
 	\begin{align*}
@@ -454,11 +472,95 @@ $E[\epsilon_t^{2m}] が時点に依らない値を持つことに注意しなけ
 			\end{cases}\qquad であるから，　\\
 		\frac{\partial h_t}{\partial \vector{\omega}} &= \vector{z}_t +  \sum_{i=1}^{p} \beta_i \frac{\partial h_{t-i}}{\partial \vector{\omega}}.
 	\end{align*}
-
-
+	$(0 \leq\ )\ \sum\limits_{i=1}^{p} \beta_i < 1$であるなら$\frac{\partial h_t}{\partial \vector{\omega}} = \vector{z}_t +  \sum\limits_{i=1}^{p} \beta_i \frac{\partial h_{t-i}}{\partial \vector{\omega}}$
+	は定常となる．\\
+	ここで$Ficher$情報行列
+	\[
+		\vector{I(\vector{\theta})} \equiv -\Exp{\frac{\partial^2 l_t}{\partial \vector{\theta} \partial \vector{\theta}^{T}} | \psi_{t-1}}
+		= \Exp{\frac{\partial l_t}{\partial \vector{\theta}} \frac{\partial l_t}{\partial \vector{\theta}^{T}} | \psi_{t-1}}
+	\]
+	を考える.
+	$\frac{\partial^2 l_t}{\partial \vector{\omega} \partial \vector{\omega}^{T}}$の右辺第一項$\left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \vector{\omega}^{T}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}} \right]$
+	の条件付き期待$0$となる:
+	\[
+		\Exp{\left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \vector{\omega}^{T}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}} \right] | \psi_{t-1}}
+		= \Exp{\frac{\epsilon_t^2}{h_t} - 1} \frac{\partial}{\partial \vector{\omega}^{T}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{\omega}} \right]
+		= 0, \qquad \because \Exp{\epsilon_t^2 | \psi_{t-1}} = \Var{\epsilon_t | \psi_{t-1}} = h_t.
+	\]
+	この為，$Ficher$情報行列$\vector{I(\vector{\theta})}$の$\vector{\omega}$に対応する部分は$\frac{\partial^2 l_t}{\partial \vector{\omega} \partial \vector{\omega}^{T}}$の右辺第二項
+	のみ関係することになる．
+	以上では対数尤度関数を$\vector{\omega}$についてみていたが，次に$\vector{b}$について微分する:
+	\begin{align*}
+		\vector{b} &= (b_1,\ b_2,\ \cdots)^{T},\ \vector{x}_t = (x_{t,1},\ x_{t,2},\ \cdots)^{T}  と表して, \\
+		\frac{\partial l_t(\vector{\theta})}{\partial b_i} 
+			&= -\frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial b_i} - \frac{1}{2} \frac{2\epsilon_t \frac{\partial \epsilon_t}{\partial b_i} h_t - \epsilon_t^2 \frac{\partial h_t}{\partial b_i}}{h_t^2}, \\
+			&= \epsilon_t x_{t,i} h_t^{-1} + \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial b_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right), \\
+		\frac{\partial^2 l_t(\vector{\theta})}{\partial b_j \partial b_i} 
+			&= \frac{\partial \epsilon_t}{\partial b_j} x_{t,i} h_t^{-1} + \epsilon_t x_{t,i} \frac{-1}{h_t^2} \frac{\partial h_t}{\partial b_j} \\
+				&\quad+ \frac{1}{2} \frac{-1}{h_t^2} \frac{\partial h_t}{\partial b_j} \frac{\partial h_t}{\partial b_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right)
+				+ \frac{1}{2} h_t^{-1} \frac{\partial^2 h_t}{\partial b_j \partial b_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right)
+				+ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial b_i} \frac{2\epsilon_t \frac{\partial \epsilon_t}{\partial b_j} h_t - \epsilon_t^2 \frac{\partial h_t}{\partial b_j}}{h_t^2} \\
+			&= -h_t^{-1} x_{t,j} x_{t,i} - \frac{1}{2} h_t^{-2}\frac{\partial h_t}{\partial b_j} \frac{\partial h_t}{\partial b_i}\left( \frac{\epsilon_t^2}{h_t} \right) \\
+				&\quad- \epsilon_t x_{t,i} \frac{1}{h_t^2} \frac{\partial h_t}{\partial b_j} - \epsilon_t x_{t,j} \frac{1}{h_t^2} \frac{\partial h_t}{\partial b_i}
+				+ \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \left[ \frac{1}{2} h_t^{-1} \frac{\partial^2 h_t}{\partial b_j \partial b_i} - \frac{1}{2} \frac{1}{h_t^2} \frac{\partial h_t}{\partial b_j} \frac{\partial h_t}{\partial b_i} \right] \\
+			&= -h_t^{-1} x_{t,j} x_{t,i} - \frac{1}{2} h_t^{-2}\frac{\partial h_t}{\partial b_j} \frac{\partial h_t}{\partial b_i}\left( \frac{\epsilon_t^2}{h_t} \right) \\
+				&\quad- \epsilon_t x_{t,i} h_t^{-2} \frac{\partial h_t}{\partial b_j} - \epsilon_t x_{t,j} h_t^{-2} \frac{\partial h_t}{\partial b_i}
+				+ \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial b_j}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial b_i} \right] \qquad と計算できるから, \\
+		\frac{\partial l_t(\vector{\theta})}{\partial \vector{b}} &= \left( \frac{\partial l_t}{\partial b_1},\ \frac{\partial l_t}{\partial b_2},\ \cdots \right)^{T} \\
+			&= \epsilon_t \vector{x}_t h_t^{-1} + \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{b}} \left( \frac{\epsilon_t^2}{h_t} - 1 \right), \\
+		\frac{\partial^2 l_t(\vector{\theta})}{\partial \vector{b}^{T} \partial \vector{b}} 
+			&= \left( 
+				\begin{array}{cccc}
+					\frac{\partial^2 l_t}{\partial b_1^2} & \frac{\partial^2 l_t}{\partial b_1 \partial b_2} & \frac{\partial^2 l_t}{\partial b_1 \partial b_3} & \cdots \\
+					\frac{\partial^2 l_t}{\partial b_2 \partial b_1} & \frac{\partial^2 l_t}{\partial b_2^2} & \frac{\partial^2 l_t}{\partial b_2 \partial b_3} & \cdots \\
+					\frac{\partial^2 l_t}{\partial b_3 \partial b_1} & \frac{\partial^2 l_t}{\partial b_3 \partial b_2} & \frac{\partial^2 l_t}{\partial b_3^2} & \cdots \\
+					\vdots & \vdots & \vdots & \ddots
+				\end{array}
+				\right) \\
+			&= -h_t^{-1} \vector{x}_t \vector{x}_t^{T} - \frac{1}{2} h_t^{-2}\frac{\partial h_t}{\partial \vector{b}} \frac{\partial h_t}{\partial \vector{b}^{T}}\left( \frac{\epsilon_t^2}{h_t} \right) \\
+				&\quad- \epsilon_t h_t^{-2} \frac{\partial h_t}{\partial \vector{b}} \vector{x}_t^{T} - \epsilon_t h_t^{-2} \vector{x}_t \frac{\partial h_t}{\partial \vector{b}^{T}}
+				+ \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \vector{b}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{b}^{T}} \right]. \\
+	\end{align*}
+	ただし，
+	\[
+		\frac{\partial h_t}{\partial \vector{b}} = -2 \sum_{i=1}^{q} \alpha_i \epsilon_{t-i} \vector{x_{t-i}} + \sum_{i=1}^{p} \beta_i \frac{\partial h_{t-i}}{\partial \vector{b}}.
+	\]
+	$Ficher$情報行列$\vector{I(\vector{\theta})}$の$\vector{b}$に対応する部分を考えると，$\frac{\partial^2 l_t(\vector{\theta})}{\partial \vector{b}^{T} \partial \vector{b}}$の
+	第三項と第四項の条件付き期待値が
+	\begin{align*}
+		\Exp{\epsilon_t h_t^{-2} \frac{\partial h_t}{\partial \vector{b}} \vector{x}_t^{T} | \psi_{t-1}} &= \Exp{\epsilon_t | \psi_{t-1}}\frac{\partial h_t}{\partial \vector{b}} \vector{x}_t^{T} = 0, \\
+		\Exp{ \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \frac{\partial}{\partial \vector{b}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{b}^{T}} \right] | \psi_{t-1}}
+			&= \Exp{\frac{\epsilon_t^2}{h_t} - 1 | \psi_{t-1}}\frac{\partial}{\partial \vector{b}}\left[ \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \vector{b}^{T}} \right] = 0,
+	\end{align*}
+	となるから，右辺第一項と右辺第二項のみ関係することになる． \\
+	最後に，対角ブロックでない部分，即ち$\frac{\partial^2 l_t(\vector{\theta})}{\partial \vector{\omega}^{T} \partial \vector{b}}$と
+	$\frac{\partial^2 l_t(\vector{\theta})}{\partial \vector{b}^{T} \partial \vector{\omega}}$を計算する:
+	\begin{align*}
+		\frac{\partial^2 l_t(\vector{\theta})}{\partial b_j \partial \omega_i} 
+			&= \frac{\partial}{\partial b_j}\left( \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial \omega_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \right) \\
+			&= -\frac{1}{2}h_t^{-2}\frac{\partial h_t}{\partial b_j}\frac{\partial h_t}{\partial \omega_i}\left( \frac{\epsilon_t^2}{h_t} - 1 \right) \\
+				&\quad+ \frac{1}{2}h_t^{-1}\frac{\partial^2 h_t}{\partial b_j \partial \omega_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \\
+				&\quad+ \frac{1}{2}h_t^{-1} \frac{\partial h_t}{\partial \omega_i} \frac{2\epsilon_t \frac{\partial \epsilon_t}{\partial b_j} h_t - \epsilon_t^2 \frac{\partial h_t}{\partial b_j}}{h_t^2},
+			\hspace{20pt} \Rightarrow \Exp{\frac{\partial^2 l_t(\vector{\theta})}{\partial b_j \partial \omega_i} | \psi_{t-1}} =  -\frac{1}{2}h_t^{-2}\frac{\partial h_t}{\partial b_j}\frac{\partial h_t}{\partial \omega_i}. \\
+		\frac{\partial^2 l_t(\vector{\theta})}{\partial \omega_j \partial b_i}
+			&= \frac{\partial}{\partial \omega_j}\left( \epsilon_t x_{t,i} h_t^{-1} + \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial b_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \right) \\
+			&= \epsilon_t x_{t,i} h_t^{-2} \frac{\partial h_t}{\partial \omega_j} \\
+				&\quad+ \frac{1}{2} h_t^{-2} \frac{\partial h_t}{\partial \omega_j} \frac{\partial h_t}{\partial b_i}  \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \\
+				&\quad+ \frac{1}{2} h_t^{-1} \frac{\partial^2 h_t}{\partial \omega_j \partial b_i} \left( \frac{\epsilon_t^2}{h_t} - 1 \right) \\
+				&\quad- \frac{1}{2} h_t^{-1} \frac{\partial h_t}{\partial b_i} \epsilon_t^2 h_t^{-2} \frac{\partial h_t}{\partial \omega_j},
+			\hspace{20pt} \Rightarrow \Exp{\frac{\partial^2 l_t(\vector{\theta})}{\partial \omega_j \partial b_i} | \psi_{t-1}} = -\frac{1}{2} h_t^{-2} \frac{\partial h_t}{\partial \omega_j} \frac{\partial h_t}{\partial b_i}.
+	\end{align*}
+	ここで$Ficher$情報行列の計算は終わる．\\
+	続いて最尤推定量の計算に移る．原論文$317$頁の$Berndt,\ Hall,\ Hall\ and\ Hausman(1974)$のアルゴリズムは$Newton$法のような再帰計算をすることで
+	$\frac{\partial}{\partial \vector{\theta}}L_T(\vector{\theta}) = \frac{\partial}{\partial \vector{\theta}}T^{-1} \sum_{t=1}^{T} l_t(\vector{\theta}) = 0$
+	の解を求めている:
+	\[
+		\vector{\theta}^{(i+1)} = \vector{\theta}^{(i)} + \lambda_i \left( 
+			\sum_{t=1}^{T} \frac{\partial l_t(\vector{\theta}^{(i)})}{\partial \vector{\theta}} \frac{\partial l_t(\vector{\theta}^{(i)})}{\partial \vector{\theta}^{T}} 
+			\right)^{-1} \sum_{t=1}^{T} \frac{\partial l_t(\vector{\theta}^{(i)})}{\partial \vector{\theta}}.
+	\]
 \end{breakbox}
-\begin{proof}
-\end{proof}
+
 
 
 \end{document}
