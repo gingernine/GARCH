@@ -162,7 +162,7 @@ $標準正規分布に従う確率変数 X の 2m\ (m \in \mathbb{N}) 次のモ�
 $\eta_t の正規性と，情報構造\psi_{t-1} が与えられた下で h_t が定数となることに注意すると以下の式が成り立つ．$
 \begin{align*}
 	a_m &\equiv \Exp{\eta_t^{2m}} = \prod_{i=1}^{m} (2i-1), \\
-	\Exp{\epsilon_t^{2m}} &= E{ \Exp{\epsilon_t^{2m}\ |\ \psi_{t-1}} } = \Exp{ \Exp{\eta_t^{2m} h_t^m\ |\ \psi_{t-1}} } 
+	\Exp{\epsilon_t^{2m}} &= \Exp{ \Exp{\epsilon_t^{2m}\ |\ \psi_{t-1}} } = \Exp{ \Exp{\eta_t^{2m} h_t^m\ |\ \psi_{t-1}} } 
 	=  \Exp{h_t^m} \Exp{\eta_t^{2m}} = a_m \Exp{h_t^m}.
 \end{align*}
 ${\rm GARCH}(1,\ 1) の下では h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} であるから，$
@@ -225,7 +225,7 @@ $ここで m \times m 上三角行列 \vector{C} の対角成分に現れる級�
 \[
 	\mu(\alpha_1,\beta_1,\ n) \equiv \sum\limits_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j}
 \]
-$また，与えられる情報構造の鮮度を落としていくと，すなわち \psi_{*} の添え字の時点を後退させると以下の式が成り立つ:$
+$また，与えられる情報を減少していくと，すなわち \psi_{*} の添え字の時点を後退させると以下の式が成り立つ:$
 \begin{align*}
 	\Exp{\vector{w}_t\ |\ \psi_{t-3}} &= \Exp{ \Exp{ \vector{w}_t\ |\ \psi_{t-2} }\ |\ \psi_{t-3} } \\
 		&= \Exp{ \vector{d} + \vector{C} \vector{w}_{t-1}\ |\ \psi_{t-3} } \\
@@ -242,8 +242,7 @@ $また，与えられる情報構造の鮮度を落としていくと，すな�
 \end{align*}
 $これは k \to \infty まで考えると，情報が無い下での期待値，即ち \Exp{\vector{w}_t} を表すことになり， \Exp{h_t^m} が \Exp{\vector{w}_t}　の第一成分であることから，
 行列の冪級数の収束が求める \Exp{\epsilon_t^{2m}} の存在の必要十分条件である:\\
-ところで冪級数の収束の必要十分条件は行列 \vector{C} の全ての固有値が 1 より小さいことである．これを証明してみよう．ただし，\vector{C} のべき乗 \vector{C}^k の対角成分はひたすら
-対角成分の累乗になり 0 に収束する為， \vector{C}^k が零行列に収束していくということを注意しておく．$
+ところで行列 \vector{C} のノルムが 1 より小さいとき，冪級数は収束する．これを証明してみる．$
 
 \begin{breakbox}
 	行列 $\vector{A}$ のスペクトルノルムの定義は次の様に表される:
@@ -259,32 +258,41 @@ $これは k \to \infty まで考えると，情報が無い下での期待値�
 	\[
 		\norm{\vector{A^n}} = \norm{\vector{AA^{n-1}}} 
 		\leq \norm{\vector{A}}\norm{\vector{A^{n-1}}}
-		\leq \norm{\vector{A}}^2 \norm{\vector{A^{n-2}}} \cdots \leq \norm{\vector{A}}^n \ <\ \alpha^n
+		\leq \norm{\vector{A}}^2 \norm{\vector{A}^{n-2}} \cdots \leq \norm{\vector{A}}^n \ <\ \alpha^n
 	\]
-	と表すことが出来る．ここで冪級数の話に戻る．冪級数の全体ののルムを考えると,
+	と表すことが出来る．ここで冪級数の話に戻る．冪級数の全体のノルムを考えると,
 	\[
 		\norm{\vector{I} + \vector{C} + \vector{C}^2 + \cdots } \leq \norm{\vector{I}} + \norm{\vector{C}} + \norm{\vector{C}^2} + \cdots, 
 	\]
-	従って実数値の冪級数の収束条件が適用できて， $\norm{\vector{C}} < 1$ であるなら上式左辺が項数に関して $Cauchy$ 列をなす．
-	即ち或る有限な成分から構成される行列が存在し，冪級数はそれに収束する．対偶を考えれば行列の冪級数の収束の必要十分条件が $\norm{\vector{C}} < 1$ であることがわかる．
-	ところで，$\norm{\vector{C}}$　の値は　$\vector{C}\vector{C}^{T}$　の最大固有値に等しいのであった．
-	$\vector{C}$ が上三角行列であることから $\vector{C}\vector{C}^{T}$ は実対称行列になる．$\vector{C}$ の成分を構成しているのは非負を仮定してある
-	${\rm GARCH}(1,\ 1)$ の係数と標準正規分布の偶数次モーメントであることから，その加算乗算で構成される $\vector{C}\vector{C}^{T}$ の成分は全て非負であり，
-	$\vector{C}\vector{C}^{T}$ の行列式は$\vector{C}$ の対角成分の平方和よりも大きくなる:
-	\[
-		%\norm{\vector{C}} = \det{\vector{C}\vector{C}^{T}} \geq \sum_{c \in \diag{\vector{C}}} c^2,
-	\]
+	従って実数値の冪級数の収束条件が適用できて， $\norm{\vector{C}} < 1$ であるなら上式左辺が項数に関して $Cauchy$ 列をなす:
+	\begin{align*}
+		&\forall \epsilon > 0,\ \exists N \in \mathbb{N},\ \forall n1,n2 \geq N, \\
+		&\norm{\sum\limits_{i=n1}^{n2} \vector{C}^i} \leq \sum_{i=n1}^{n2} \norm{\vector{C}}^i < \epsilon.
+	\end{align*}
+	即ち或る有限な成分から構成される行列が存在し，冪級数はそれに収束する．収束先の計算は以下の様にする:
+	\begin{align*}
+		&(\vector{I} - \vector{C})\sum_{i=0}^{\infty} \vector{C}^i = \sum_{i=0}^{\infty} \vector{C}^i - \sum_{i=1}^{\infty} \vector{C}^i = \vector{I}, \\
+		&\Rightarrow \sum_{i=0}^{\infty} \vector{C}^i = (\vector{I} - \vector{C})^{-1}.
+	\end{align*}
 	
+	ところで，$\norm{\vector{C}}$　の値は　$\vector{C}^{T}\vector{C}$　の最大固有値に等しい．なぜならば，$\vector{C}$ が上三角行列であることから 
+	$\vector{C}^{T}\vector{C}$ は実対称行列になる為である．$\vector{C}^{T}\vector{C}$を対角化すると，或る直交行列$\vector{U}$によって
+	\begin{align*}
+		&\vector{C}^{T}\vector{C} = \vector{U}^{T}\vector{\Lambda}\vector{U}, \\
+		s.t. \qquad &\vector{\Lambda} = diag(\lambda_1, \lambda_2, \cdots, \lambda_m), \quad \lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_m,
+	\end{align*}
+	と表すことが出来る．即ち，$\norm{\vector{C}} = \sqrt{\lambda_1}$.$\vector{C}$の対角要素の総乗の$2$乗が$\vector{C}^{T}\vector{C}$の行列式の値に等しく，
+	$\norm{\vector{C}} < 1$ならば$| \vector{C}^{T}\vector{C} | = | \vector{\Lambda} |$
+	\[
+		
+	\]
 \end{breakbox}
 
-$上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n) に等しい． {\rm GARCH} モデルの仮定から  \alpha_1,\beta_1 は非負であり，
+$上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n)\ (n=1,2,\cdots,m) に等しい． {\rm GARCH} モデルの仮定から  \alpha_1,\beta_1 は非負であり，
 a_j は標準正規分布の偶数次のモーメントであるから正数で，即ち， \mu(\alpha_1,\beta_1,\ n) は n に関して非負単調増大であり， 
 \mu(\alpha_1,\beta_1,\ m) < 1 であることが冪級数の収束の十分条件を為す．よって \mu(\alpha_1,\beta_1,\ m) < 1 であることは \Exp{\epsilon_t^{2m}} の存在の
-十分条件となる．一方， \Exp{\epsilon_t^{2m}} が存在すれば 2(m-1),\ 2(m-2),\ \cdots ,\ 2 次モーメントも存在することになるので，$
-\[
-	\Exp{\vector{w}_t} = \lim_{k \to \infty} \Exp{\vector{w}_t\ |\ \psi_{t-k-1}} < \infty,
-\]
-$即ち冪級数は収束し，\mu(\alpha_1,\beta_1,\ m) < 1 が従う．$
+十分条件となる．一方， \Exp{\epsilon_t^{2m}} が存在すれば 2(m-1),\ 2(m-2),\ \cdots ,\ 2 次モーメントも存在することになるので，
+冪級数は収束し，\mu(\alpha_1,\beta_1,\ m) < 1 が従う．$
 
 最後に
 \[
