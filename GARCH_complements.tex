@@ -168,7 +168,7 @@ $\eta_t の正規性と，情報構造\psi_{t-1} が与えられた下で h_t �
 ${\rm GARCH}(1,\ 1) の下では h_t = \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} であるから，$
 \begin{align*}
 	h_t^m &= \left( \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \beta_1 h_{t-1} \right)^m \\
-	&= \sum_{n=0}{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}{n} \alpha_1^j \beta_1^{n-j} \epsilon_{t-1}^2j h_{t-1}^{n-j}.
+	&= \sum_{n=0}^{m} \binom{m}{n} \alpha_0^{m-n} \sum_{j=0}^{n} \alpha_1^j \beta_1^{n-j} \epsilon_{t-1}^2j h_{t-1}^{n-j}.
 \end{align*}
 $従って，時点 t-2 までの情報を与えると，$
 \begin{align*}
@@ -274,23 +274,22 @@ $これは k \to \infty まで考えると，情報が無い下での期待値�
 		&(\vector{I} - \vector{C})\sum_{i=0}^{\infty} \vector{C}^i = \sum_{i=0}^{\infty} \vector{C}^i - \sum_{i=1}^{\infty} \vector{C}^i = \vector{I}, \\
 		&\Rightarrow \sum_{i=0}^{\infty} \vector{C}^i = (\vector{I} - \vector{C})^{-1}.
 	\end{align*}
-	
-	ところで，$\norm{\vector{C}}$　の値は　$\vector{C}^{T}\vector{C}$　の最大固有値に等しい．なぜならば，$\vector{C}$ が上三角行列であることから 
-	$\vector{C}^{T}\vector{C}$ は実対称行列になる為である．$\vector{C}^{T}\vector{C}$を対角化すると，或る直交行列$\vector{U}$によって
+	$\norm{\vector{C}} < 1$が成り立つときには$\vector{C}$の各成分$c_{j,i}$は$|c_{j,i}| < 1$を満たす．これは次の様にして成り立つことである:
 	\begin{align*}
-		&\vector{C}^{T}\vector{C} = \vector{U}^{T}\vector{\Lambda}\vector{U}, \\
-		s.t. \qquad &\vector{\Lambda} = diag(\lambda_1, \lambda_2, \cdots, \lambda_m), \quad \lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_m,
+		第i成分が1であるm次元&ベクトル\quad \vector{x}=(0,0,\cdots,0,1,0,\cdots,0)^{T},\ (i=1,2,\cdots,m) に対して, \\
+		&|c_{j,i}| < \sqrt{\sum_{j=1}^{m} c_{j,i}^2} = \frac{\norm{\vector{Cx}}}{\norm{\vector{x}}} \leq \norm{\vector{C}} < 1.
 	\end{align*}
-	と表すことが出来る．即ち，$\norm{\vector{C}} = \sqrt{\lambda_1}$.$\vector{C}$の対角要素の総乗の$2$乗が$\vector{C}^{T}\vector{C}$の行列式の値に等しく，
-	$\norm{\vector{C}} < 1$ならば$| \vector{C}^{T}\vector{C} | = | \vector{\Lambda} |$
-	\[
-		
-	\]
-\end{breakbox}
+	
+	\end{breakbox}
 
 $上三角行列の固有値は全て対角成分 \mu(\alpha_1,\beta_1,\ n)\ (n=1,2,\cdots,m) に等しい． {\rm GARCH} モデルの仮定から  \alpha_1,\beta_1 は非負であり，
-a_j は標準正規分布の偶数次のモーメントであるから正数で，即ち， \mu(\alpha_1,\beta_1,\ n) は n に関して非負単調増大であり， 
-\mu(\alpha_1,\beta_1,\ m) < 1 であることが冪級数の収束の十分条件を為す．よって \mu(\alpha_1,\beta_1,\ m) < 1 であることは \Exp{\epsilon_t^{2m}} の存在の
+a_j は標準正規分布の偶数次のモーメントであるから正数で，即ち， \mu(\alpha_1,\beta_1,\ n) は n に関して非負単調増大である:$
+\begin{align*}
+	\mu(\alpha_1,\beta_1, n+1) - \mu(\alpha_1,\beta_1, n) &= \sum_{j=0}^{n+1} \binom{n+1}{j} a_j \alpha_1^j \beta_1^{n+1-j} - \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} \\
+	&= a_{n+1}\alpha_1^{n+1} + \sum_{j=0}^{n} \left( \binom{n+1}{j}\beta_1 - \binom{n}{j} \right) a_j \alpha_1^j \beta_1^{n-j} \\
+	&\geq a_{n+1}\alpha_1^{n+1} - \sum_{j=0}^{n} \binom{n}{j} a_j \alpha_1^j \beta_1^{n-j} \\
+\end{align*}
+$\mu(\alpha_1,\beta_1,\ m) < 1 であることが冪級数の収束の十分条件を為す．よって \mu(\alpha_1,\beta_1,\ m) < 1 であることは \Exp{\epsilon_t^{2m}} の存在の
 十分条件となる．一方， \Exp{\epsilon_t^{2m}} が存在すれば 2(m-1),\ 2(m-2),\ \cdots ,\ 2 次モーメントも存在することになるので，
 冪級数は収束し，\mu(\alpha_1,\beta_1,\ m) < 1 が従う．$
 
